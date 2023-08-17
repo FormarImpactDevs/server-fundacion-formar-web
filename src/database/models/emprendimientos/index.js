@@ -1,18 +1,18 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
 const sequelize = new Sequelize('sqlite::memory:');
-const Product = sequelize.define('Product', {
+const Emprendimientos = sequelize.define('Emprendimientos', {
+    id: DataTypes.INTEGER,
   nombre: DataTypes.STRING,
-  precio: DataTypes.INTEGER,
-  descripcion: DataTypes.TEXT,
-  descuento: DataTypes.INTEGER,
-  stock: DataTypes.INTEGER,
-  emprendimiento_id: DataTypes.INTEGER,
-  categoria_id: DataTypes.INTEGER
+  descripcion: DataTypes.STRING,
+  foto_card: DataTypes.STRING,
+  foto_emprendimiento: DataTypes.STRING,
+  idUsuario: DataTypes.INTEGER,
+
 });
 
 module.exports = (sequelize, dataTypes) => {
-    const alias = "Product";
+    const alias = "Emprendimientos";
 
     const cols = {
         id: {
@@ -25,46 +25,47 @@ module.exports = (sequelize, dataTypes) => {
             type: dataTypes.STRING(45),
             allowNull: false,
         },
-        precio: {
-            type: dataTypes.INTEGER(11),
-            allowNull: false,
-        },
-        descuento: {
-            type: dataTypes.INTEGER(11),
-        },
         descripcion: {
-            type: dataTypes.TEXT,
-        },
-        categoria_id: {
-            type: dataTypes.INTEGER(11),
+            type: dataTypes.STRING(200),
             allowNull: false,
         },
+        foto_card: {
+            type: dataTypes.STRING(45),
+            allowNull: false,
+        },
+        foto_emprendimiento: {
+            type: dataTypes.STRING(45),
+            allowNull: false,
+        },
+        idUsuario: {
+            type: dataTypes.INTEGER(11),
+            allowNull: false,
+        }
     }
-
     const config = {
-        tableName: "products",
+        tableName: "emprendimientos",
         createdAt: "created_at",
         updatedAt: "updated_at",
     }
 
-    const PRODUCT = sequelize.define(alias, cols, config);
+    const EMPRENDIMIENTOS = sequelize.define(alias, cols, config);
 
-    PRODUCT.associate = (models) => {
-        PRODUCT.belongsTo(models.Categoria, {
+    EMPRENDIMIENTOS.associate = (models) => {
+        EMPRENDIMIENTOS.belongsTo(models.Categoria, {
             as: "categoria",
             foreignKey: "categoria_id",
         });
 
-        PRODUCT.hasMany(models.ImagenesProductos, {
+        EMPRENDIMIENTOS.hasMany(models.ImagenesProductos, {
             as: "images",
             foreignKey: "productos_id",
             onDelete:'cascade'
         });
-        PRODUCT.belongsTo(models.Emprendimientos, {
+        EMPRENDIMIENTOS.belongsTo(models.Emprendimientos, {
             as: "emprendimientos",
             foreignKey: "emprendimientos_id",
         });
     }
 
-    return PRODUCT;
+    return EMPRENDIMIENTOS;
 }

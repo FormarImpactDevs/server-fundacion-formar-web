@@ -1,16 +1,15 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
 const sequelize = new Sequelize('sqlite::memory:');
-const User = sequelize.define('User', {
+const puntoDeRetiro = sequelize.define('puntoDeRetiro', {
     id: DataTypes.INTEGER,
   nombre: DataTypes.STRING,
-  email: DataTypes.DATE,
-  password:DataTypes.STRING,
-
+  descripcion: DataTypes.TEXT,
+  telefono: DataTypes.INTEGER
 });
 
 module.exports = (sequelize, dataTypes) => {
-    const alias = "User";
+    const alias = "puntoDeRetiro";
 
     const cols = {
         id: {
@@ -20,25 +19,32 @@ module.exports = (sequelize, dataTypes) => {
             primaryKey: true,
         },
         nombre: {
-            type: dataTypes.STRING(255),
+            type: dataTypes.STRING(200),
             allowNull: false,
         },
-        email: {
-            type: dataTypes.STRING(255),
+        descripcion: {
+            type: dataTypes.TEXT,
             allowNull: false,
         },
-        pass: {
-            type: dataTypes.STRING(255),
+        telefono: {
+            type: dataTypes.INTEGER(),
             allowNull: false,
         }
     }
-
     const config = {
-        tableName: "usuarios",
+        tableName: "puntoDeRetiro",
         createdAt: "created_at",
         updatedAt: "updated_at",
     }
 
-    return sequelize.define(alias,cols,{...config})
+    const PUNTODERETIRO = sequelize.define(alias, cols, config);
 
+    PUNTODERETIRO.associate = (models) => {
+        PUNTODERETIRO.belongsTo(models.Pedidos, {
+            as: "Pedidos",
+            foreignKey: "pedidos_id",
+        });
+    }
+
+    return PUNTODERETIRO;
 }
