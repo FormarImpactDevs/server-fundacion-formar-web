@@ -28,6 +28,14 @@ module.exports = (sequelize, dataTypes) => {
         timestamps: false,
     }
 
-  
-  return sequelize.define(alias,cols,{...config})
+    const EMPRENDIMIENTOS = sequelize.define(alias, cols, config);
+
+    EMPRENDIMIENTOS.associate = (models) => {
+        EMPRENDIMIENTOS.belongsTo(models.Product, {
+            as: "Productos",
+            foreignKey: "categoria_id",
+        });
+        
+  return EMPRENDIMIENTOS
+}
 }
