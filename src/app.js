@@ -1,6 +1,5 @@
 // Módulos de Node.js
 const process = require("process");
-
 // Módulos de terceros
 const express = require("express");
 const methodOverride = require("method-override");
@@ -8,6 +7,9 @@ require('dotenv').config();
 const cors = require('cors')
 
 // Rutas
+const [ 
+    enterpriseRouter
+] = require("./routes");
 
 const app = express();
 
@@ -21,6 +23,7 @@ app.use(methodOverride("_method"));
 app.use(cors());
 
 // Rutas
+app.use(`/api/enterprises`, enterpriseRouter);
 
 // Manejo de errores
 app.use((err, req, res, next) => {
@@ -29,4 +32,5 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => console.log(`Server listen in port ${PORT}`));
+app.listen(PORT, () => console.log(`Server listen in port: ${PORT}\n http://localhost:${PORT}`));
+

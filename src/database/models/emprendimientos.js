@@ -1,34 +1,41 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Emprendimientos extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-    Emprendimientos.hasMany(models.Products,{
-        as:'products',
-        foreignKey: "producto_id"
-      }),
-      Emprendimientos.hasMany(models.User,{
-        as:'user',
-        foreignKey: "id_usuario"
-      })
-    }
-    }
-  }
-  Emprendimientos.init({
-    nombre: DataTypes.STRING,
-    descripcion: DataTypes.TEXT,
-    foto_card: DataTypes.STRING,
-    foto_emprendimiento: DataTypes.STRING,
-    id_usuario:DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Emprendimientos',
-  });
-  return Emprendimientos;
+module.exports = (sequelize, dataTypes) => {
+  const alias = "Enterprise";
+
+  const cols = {
+    id: {
+      type: dataTypes.INTEGER(11),
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    nombre: {
+      type: dataTypes.STRING,
+    },
+    descripcion: {
+      type: dataTypes.TEXT,
+    },
+    foto_card: {
+      type: dataTypes.STRING,
+    },
+    foto_emprendimiento: {
+      type: dataTypes.STRING,
+    },
+  };
+
+  const config = {
+    tableName: "emprendimientos",
+    timestamps: false
+  };
+
+  const ENTERPRISE = sequelize.define(alias, cols, config);
+
+  ENTERPRISE.associate = (models) => {
+    ENTERPRISE.hasMany(models.Product, {
+      as: "products",
+      foreignKey: "emprendimientos_id",
+    });
+  };
+
+  return ENTERPRISE;
+};
+
