@@ -10,7 +10,7 @@ const {
 const bcrypt = require("bcrypt");
 
 module.exports = {
-  getUsers: async (req, res) => {
+  getUsers: async (req, res) => { //se encarga de obtener la lista de usuarios y enviarla como respuesta al cliente
     try {
       const users = await getUsers();
       const usersResponse = users.map(({ id, nombre, email }) => {
@@ -20,22 +20,22 @@ module.exports = {
           email,
           detail: `/api/users/${id}`,
         };
-      });
+      }); //version simplicada que solo incluye id, nombre y email. el datail trae una url para ver mas sobre ese usuario
 
       const RESPONSE = {
         count: users.length,
         users: usersResponse,
-      };
+      }; //contiene la cantidad de usuarios y la lista de usuarios formateados
 
-      return res.status(200).json(RESPONSE);
+      return res.status(200).json(RESPONSE); //si todo va bien responde al cliente y envia la respuesta en formato json 
     } catch (error) {
-      return res.status(500).json({ Error: error });
+      return res.status(500).json({ Error: error }); //si va mal envía un objeto JSON que contiene información sobre el error
     }
   },
-  getUserById: async (req, res) => {
+  getUserById: async (req, res) => { //obtiene los detalles de un usuario específico por su ID
     try {
-      const USER_ID = req.params.id;
-      const { id, nombre, email, telefono } = await getUserById(
+      const USER_ID = req.params.id; //contiene los detalles del usuario obtenidos de la base de datos
+      const { id, nombre, email } = await getUserById(
         USER_ID
       );
 
@@ -43,8 +43,6 @@ module.exports = {
         id,
         nombre,
         email,
-        telefono
-        
       };
 
       return res.status(200).json(USER_DATA_RESPONSE);
@@ -56,7 +54,7 @@ module.exports = {
     try {
       const result = await insertUser({ 
         ...req.body,
-        pass: bcrypt.hashSync(req.body.pass, 10)
+        password: bcrypt.hashSync(req.body.pass, 10) //clave cifrada de manera segura antes de guardarse en la base de datos
        });
 
       if (result) {
