@@ -1,4 +1,4 @@
-const { generateToken } = require("../../helpers/jwt.helper");
+/* const { generateToken } = require("../../helpers/jwt.helper"); */
 const {
   getUsers,
   getUserById,
@@ -70,6 +70,29 @@ module.exports = {
   },
   login: async (req, res) => {
     try {
+      const { email, password } = req.body;
+      const user = await getUserByEmail(email);
+  
+      if (!user) {
+        return res.status(401).json({ Error: "Invalid email or password" });
+      }
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+  
+      if (!passwordMatch) {
+        return res.status(401).json({ Error: "Invalid email or password" });
+      }
+  
+      // Si las credenciales son válidas, enviar respuesta de éxito
+      return res.status(200).json({ message: "Login successful" });
+    } catch (error) {
+      console.error("Error during login:", error);
+      return res.status(500).json({ Error: "An error occurred during login: " + error.message });
+    }
+  },
+  
+  /* login: async (req, res) => {
+    try {
       const { email } = req.body;
       const user = await getUserByEmail(email);
       const token = generateToken(user);
@@ -78,7 +101,51 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ Error: "Token error " + error });
     }
+  }, */
+  updateUser: async (req, res) => {
+    const USER_ID = req.params.id;
+    const user = await getUserById(USER_ID);
+  
+    if (!user) {
+      return res.status(404).json({ Error: "User not found" });
+    }
+  
+    try {
+      const updatedData = {
+        nombre: req.body.nombre ? req.body.nombre : user.nombre,
+        email: req.body.email ? req.body.email : user.email,
+        contraseña: req.body.contraseña ? req.body.contraseña : user.contraseña,
+      };
+      
+      const result = await updateUser(USER_ID, updatedData);
+  
+      if (result) {
+        const SUCCESS_RESPONSE = "User updated successfully";
+        return res.status(200).json({ msg: SUCCESS_RESPONSE });
+      } else {
+        const ERROR_RESPONSE = "Something's wrong";
+        return res.status(400).json({ msg: ERROR_RESPONSE });
+      }
+    } catch (error) {
+      return res.status(500).json({ Error: error });
+    }
   },
-  updateUser: async (req, res) => {},
-  deleteUser: async (req, res) => {},
+  
+  
+  deleteUser: async (req, res) => {
+    const user_id = req.params.id;
+    try {
+      const result = await deleteUser(user_id);
+
+      if (result) {
+        const SUCCESS_RESPONSE = "User deleted successfully";
+        return res.status(201).json({ msg: SUCCESS_RESPONSE });
+      } else {
+        const ERROR_RESPONSE = "Somethings wrong";
+        return res.status(400).json({ msg: ERROR_RESPONSE });
+      }
+    } catch (error) {
+      return res.status(500).json({ Error: error });
+    }
+  }
 };
