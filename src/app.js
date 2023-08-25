@@ -8,7 +8,9 @@ const cors = require('cors')
 
 // Rutas
 const [ 
-    enterpriseRouter,usersRouter
+    enterpriseRouter,
+    usersRouter,
+    categoryRouter,
 ] = require("./routes");
 
 const app = express();
@@ -25,6 +27,7 @@ app.use(cors());
 // Rutas
 app.use(`/api/enterprises`, enterpriseRouter);
 app.use(`/api/users`, usersRouter);
+app.use(`/api/category`, categoryRouter);
 
 // Manejo de errores
 app.use((err, req, res, next) => {
