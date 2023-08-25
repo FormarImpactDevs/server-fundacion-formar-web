@@ -83,7 +83,7 @@ module.exports = {
         return res.status(401).json({ Error: "Invalid email or password" });
       }
   
-      // Si las credenciales son válidas, enviar respuesta de éxito
+      
       return res.status(200).json({ message: "Login successful" });
     } catch (error) {
       console.error("Error during login:", error);
