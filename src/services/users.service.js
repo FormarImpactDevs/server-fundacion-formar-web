@@ -40,18 +40,19 @@ const insertUser = async (userData) => {
   }
 };
 
-const updateUser = async (userData) => {
+const updateUser = async (userId, updatedData) => {
   try {
-    return await User.update(userData, { where: { id: userData.id } });
+    return await User.update(updatedData, { where: { id: userId } });
   } catch (error) {
-    console.error("Error while update user:", error);
-    throw new Error("Error update user");
+    console.error("Error while updating user:", error);
+    throw new Error("Error updating user");
   }
 };
 
+
 const deleteUser = async (userId) => {
   try {
-    return await User.destroy({ where: { id: userData.id } });
+    return await User.destroy({ where: { id: userId} });
   } catch (error) {
     console.error("Error while delete user:", error);
     throw new Error("Error delete user");
