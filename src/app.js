@@ -23,7 +23,7 @@ app.use(methodOverride("_method"));
 app.use(cors());
 
 // Rutas
-app.use(`/api/enterprises`, enterpriseRouter);
+app.use('/api/enterprises', enterpriseRouter);
 
 // Manejo de errores
 app.use((err, req, res, next) => {

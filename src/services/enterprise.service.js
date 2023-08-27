@@ -1,7 +1,6 @@
 const { Enterprise } = require("../database/models");
 
-const getEnterprises = async () => {
-    console.log(Enterprise);
+const getEnterprises = async () => {    
   try {
     const enterprise = await Enterprise.findAll();
 
@@ -18,6 +17,21 @@ const getEnterpriseById = async (enterpriseId) => {
         include: [
             { association: "products" }
           ],
+    });
+
+    return enterprise
+  } catch (error) {
+    console.error("Error while fetching enterprise: ", error);
+    throw new Error("Error while fetching enterprise");
+  }
+};
+
+const getEnterpriseByName = async (enterpriseName) => {
+  try {
+    const enterprise = await Enterprise.findOne({
+      where: {
+        nombre: enterpriseName,
+      },
     });
 
     return enterprise
@@ -58,6 +72,7 @@ const insertEnterprise = async (enterpriseData) => {
 module.exports = {
     getEnterprises,
     getEnterpriseById,
+    getEnterpriseByName,
     insertEnterprise,
     updateEnterprise,
     deleteEnterprise 
