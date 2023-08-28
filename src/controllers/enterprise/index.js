@@ -27,15 +27,26 @@ module.exports = {
   },
 
   createEnterprise: async (req, res) => {
-    let { nombre, descripcion } = req.body;
+    let { nombre, descripcion } = req.body;   
+
+    let photos = [];
+
+    if (req.files.foto_card) {
+      photos.push(req.files.foto_card[0].filename);
+    }
+
+    if (req.files.foto_emprendimiento) {
+      photos.push(req.files.foto_emprendimiento[0].filename);
+    }
 
     try {
       const exist = await getEnterpriseByName(nombre);
+
       if (exist) {
-        let fotoCard = req.files.foto_card[0].filename ?? "";
-        let fotoEmprendimiento = req.files.foto_emprendimiento[0].filename ?? "";
-        let files = [fotoCard, fotoEmprendimiento];
-        await deletedFiles("imagesEnterprises", files);
+        // Elimina las imagenes subidas si el emprendimiento ya existe
+        if (photos.length > 0) {
+          await deletedFiles("imagesEnterprises", photos);
+        }
         return res
           .status(400)
           .json({ msg: "Ya existe un emprendimiento con ese nombre" });
@@ -56,11 +67,17 @@ module.exports = {
         const SUCCESS_RESPONSE = "Emprendimiento creado satisfactoriamente";
         return res.status(201).json({ msg: SUCCESS_RESPONSE });
       } else {
+        if (photos.length > 0) {
+          await deletedFiles("imagesEnterprises", photos);
+        }
         const ERROR_RESPONSE = "Ocurrió un error";
         return res.status(400).json({ msg: ERROR_RESPONSE });
       }
     } catch (error) {
-      return res.status(500).json({ Error: error });
+      if (photos.length > 0) {
+        await deletedFiles("imagesEnterprises", photos);
+      }
+      return res.status(500).json({ Error: "Ocurrió un error al tratar de crear el emprendimiento" + error });
     }
   },
   updateEnterprise: async (req, res) => {
@@ -71,27 +88,30 @@ module.exports = {
 
     let filesOld = [];
 
+    let filesNew = [];
+
     try {
-      if (req.files.foto_card[0]) {
+      if (req.files.foto_card) {
         filesOld.push(Enterprise.foto_card);
+        filesNew.push(req.files.foto_card[0].filename);
       }
 
-      if (req.files.foto_emprendimiento[0]) {
+      if (req.files.foto_emprendimiento) {
         filesOld.push(Enterprise.foto_emprendimiento);
+        filesNew.push(req.files.foto_emprendimiento[0].filename);
       }
 
       if (filesOld.length > 0) {
         await deletedFiles("imagesEnterprises", filesOld);
       }
-
       const result = await updateEnterprise({
         id: ENTERPRISE_ID,
         nombre: nombre ? nombre : Enterprise.nombre,
         descripcion: descripcion ? descripcion : Enterprise.descripcion,
-        foto_card: req.files.foto_card[0]
+        foto_card: req.files.foto_card
           ? req.files.foto_card[0].filename
           : Enterprise.foto_card,
-        foto_emprendimiento: req.files.foto_emprendimiento[0]
+        foto_emprendimiento: req.files.foto_emprendimiento
           ? req.files.foto_emprendimiento[0].filename
           : Enterprise.foto_emprendimiento,
       });
@@ -101,11 +121,20 @@ module.exports = {
           "Emprendimiento actualizado satisfactoriamente";
         return res.status(201).json({ msg: SUCCESS_RESPONSE });
       } else {
+        if (filesNew.length > 0) {
+          await deletedFiles("imagesEnterprises", filesNew);
+        }
         const ERROR_RESPONSE = "Ocurrió un error";
         return res.status(400).json({ msg: ERROR_RESPONSE });
       }
     } catch (error) {
-      return res.status(500).json({ Error: error });
+      if (filesNew.length > 0) {
+        await deletedFiles("imagesEnterprises", filesNew);
+      }
+      return res.status(500).json({
+        Error:
+          "Ocurrió un error al tratar de actualizar el Emprendimiento" + error,
+      });
     }
   },
   deleteEnterprise: async (req, res) => {
