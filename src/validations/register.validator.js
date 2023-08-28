@@ -4,7 +4,7 @@ const { getUserByEmail } = require("../services/users.service");
 
 const userRegisterValidationRules = () => {
   return [
-    check("name").notEmpty().withMessage("Name is required"),
+    check("nombre").notEmpty().withMessage("Name is required"),
     check("email")
       .notEmpty()
       .withMessage("Email is required")
@@ -24,12 +24,12 @@ const userRegisterValidationRules = () => {
         max: 12,
       })
       .withMessage("Password must be between 6 and 12 characters"),
-    body("pass2")
+    /* body("pass2")
       .custom((value, { req }) => (value !== req.body.pass ? false : true))
       .withMessage("Passwords do not match"),
     check("terms")
       .isString("on")
-      .withMessage("You must accept the bases and conditions"),
+      .withMessage("You must accept the bases and conditions"), */
    /*  check("rol").isInt().withMessage("Invalid role"),
     check("avatar").optional().isURL().withMessage("Invalid avatar URL"), */
   ];

@@ -7,7 +7,7 @@ const generateToken = (user) => {
   try {
     const USER_DATA = {
         id: user.id,
-        nombre: user.name,
+        nombre: user.nombre,
         email: user.email,
     }
     const payload = {
@@ -15,7 +15,7 @@ const generateToken = (user) => {
         exp: Date.now() + 60 * 1000000,
     }
 
-    const token = jwt.sign({payload}, secret);
+    const token = jwt.sign(payload, secret);
 
     return token;
   } catch (error) {
