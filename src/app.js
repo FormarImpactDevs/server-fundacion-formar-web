@@ -30,6 +30,8 @@ app.use(`/api/enterprises`, enterpriseRouter);
 app.use(`/api/users`, usersRouter);
 app.use(`/api/orders`, orderRouter);
 app.use(`/api/category`, categoryRouter);
+/* app.use(`/api/orders`, categoryRouter);
+app.use(`/api/category`, orderRouter); */
 
 // Manejo de errores
 app.use((err, req, res, next) => {
