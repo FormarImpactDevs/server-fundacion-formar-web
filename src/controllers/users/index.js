@@ -90,7 +90,6 @@ module.exports = {
       }
 
       const token = generateToken(user);
-      console.log("token", token);
       // Si las credenciales son válidas, enviar el token en la respuesta
       return res.status(200).json({ token });
     } catch (error) {
