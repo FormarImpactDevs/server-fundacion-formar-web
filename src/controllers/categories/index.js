@@ -18,9 +18,9 @@ module.exports = {
         total: categories.length,
       };
 
-      res.status(200).json(response);
+      return res.status(200).json(response);
     } catch (error) {
-      sendErrorResponse(res, 500, "Error fetching categories");
+      return sendErrorResponse(res, 500, "Error fetching categories");
     }
   },
 
@@ -36,12 +36,12 @@ module.exports = {
           data: category,
         };
 
-        res.status(200).json(response);
+        return res.status(200).json(response);
       } else {
-        sendErrorResponse(res, 400, `La categoría con id: ${categoryId} no existe`);
+        return sendErrorResponse(res, 400, `La categoría con id: ${categoryId} no existe`);
       }
     } catch (error) {
-      sendErrorResponse(res, 500, "Error fetching category");
+       return sendErrorResponse(res, 500, "Error fetching category");
     }
   },
 };
