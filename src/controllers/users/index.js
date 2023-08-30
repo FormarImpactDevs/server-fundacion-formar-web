@@ -38,7 +38,7 @@ module.exports = {
       const user = await getUserById(USER_ID);
   
       if (!user) {
-        return res.status(404).json({ Error: `El usuario con ID ${USER_ID} no existe` });
+        return res.status(404).json({ Error: `User with ID ${USER_ID} does not exist` });
       }
   
       const { id, nombre, email } = user;
@@ -80,7 +80,7 @@ module.exports = {
       
       
       if (!user) {
-        return res.status(404).json({ Error: `El usuario con email ${email} no existe` });
+        return res.status(404).json({ Error: `User with email ${EMAIL_ID} does not exist` });
       }
         
       const passwordMatch = await bcrypt.compare(password, user.password);
