@@ -88,10 +88,9 @@ module.exports = {
       if (!passwordMatch) {
         return res.status(401).json({ Error: "Invalid email or password" });
       }
-
-      const token = generateToken(user);
-      // Si las credenciales son válidas, enviar el token en la respuesta
-      return res.status(200).json({ token });
+  
+      
+      return res.status(200).json({ message: "Login successful" });
     } catch (error) {
       console.error("Error during login:", error);
       return res.status(500).json({ Error: "An error occurred during login: " + error.message });
