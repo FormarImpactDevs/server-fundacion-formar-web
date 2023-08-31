@@ -4,13 +4,20 @@ const {
   updateOrder,
 } = require("../../services/notificationMP.service");
 
+const sendResponse = require("../../utils/sendResponse");
+
 module.exports = {
   getNotifications: async (req, res) => {
     try {
       const notifications = await getNotificationsMP();
-      return res.status(200).json(notifications);
+      return sendResponse(res, 200, "Lista de notificaciones", notifications);
     } catch (error) {
-      return res.status(500).json({ massage: error.massage });
+      return sendResponse(
+        res,
+        500,
+        "Error al obtener la lista de notificaciones",
+        error
+      );
     }
   },
 
@@ -27,15 +34,19 @@ module.exports = {
         });
 
         const SUCCESS_RESPONSE = "Notificación guardada satisfactoriamente";
-        return res.status(201).json({ msg: SUCCESS_RESPONSE });
+
+        return sendResponse(res, 201, SUCCESS_RESPONSE, result);
       } else {
         const ERROR_RESPONSE = "Ocurrió un error";
-        return res.status(400).json({ msg: ERROR_RESPONSE });
+        return sendResponse(res, 400, ERROR_RESPONSE);
       }
     } catch (error) {
-      return res.status(500).json({
-        Error: "Ocurrió un error al tratar de guardar la notificación " + error,
-      });
+      return sendResponse(
+        res,
+        500,
+        "Ocurrió un error al tratar de guardar la notificación ",
+        error.message
+      );
     }
   },
 };

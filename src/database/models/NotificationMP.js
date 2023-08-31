@@ -35,6 +35,7 @@ module.exports = (sequelize, dataTypes) => {
     NOTIFICACIONES_MP.belongsTo(models.Order, {
       as: "orders",
       foreignKey: "idPedido",
+      onUpdate: "cascade",
     });
   };
 
