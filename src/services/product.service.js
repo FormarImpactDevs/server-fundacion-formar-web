@@ -1,12 +1,13 @@
 const { Product } = require("../database/models");
 
-const getProducts = async () => {
+const getProduct = async () => {
     try {
       const products = await Product.findAll({
         include: [
           { association: "category" },
           { association: "images" },
-          { association: "emprendimientos" },]
+          { association: "emprendimientos" }
+          ,]
     
       });
 
@@ -34,37 +35,37 @@ const getProductById = async (productId) => {
     }
   };
 
-  const createProduct = async (productData) => {
-    try{
+ const insertProduct = async (productData) => {
+    try {
       return await Product.create(productData);
-    }catch (error){
-      console.error("Error while create Product:", error);
-      throw new Error("Error create Product");
+    } catch (error) {
+      console.error("Error al insertar un producto:", error);
+      throw new Error("Error al insertar un producto");
     }
   };
 
   const updateProduct = async (productData) => {
-    try{
-      return await Product.update(productData, {where: {id: productData.id}});
+    try {
+      return await Product.update(productData, { where: { id: productData.id } });
     } catch (error) {
-      console.error("Error while update Product:", error);
-      throw new Error("Error update Product");
+      console.error("Error al actualizar un producto:", error);
+      throw new Error("Error al actualizar un producto");
     }
   };
 
   const deleteProduct = async (productId) => {
     try {
-      return await Product.destroy({ where: { id: productId}});
+      return await Product.destroy({ where: { id: productId } });
     } catch (error) {
-      console.error("Error while delete product:", error);
-      throw new Error("Error delete product");
+      console.error("Error al tratar de eliminar un Emprendimiento:", error);
+      throw new Error("Error al tratar de eliminar un Emprendimiento");
     }
   };
 
   module.exports = {
-    getProducts,
+    getProduct,
     getProductById,
-    createProduct,
+    insertProduct,
     updateProduct,
     deleteProduct
 }
