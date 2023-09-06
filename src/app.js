@@ -30,9 +30,10 @@ app.use(cors());
 app.use('/api/enterprises', enterpriseRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/category', categoryRouter);
-app.use('/api/products', productRouter);
+app.use('/api/product', productRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/notifications', notificationRouter);
+
 
 // Manejo de errores
 app.use((err, req, res, next) => {
