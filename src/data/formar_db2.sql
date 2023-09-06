@@ -102,8 +102,23 @@ DROP TABLE IF EXISTS `notificaciones_mp`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notificaciones_mp` (
   `id` int(11) AUTO_INCREMENT NOT NULL,
-  `pedido_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `notificationId` varchar(100) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `data` varchar(255) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `live_mode` boolean NOT NULL,
+  `date_created` date NOT NULL,
+  `application_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `version` int NOT NULL,
+  `api_version` varchar(255) NOT NULL,
+  `paymentId` varchar(255) NOT NULL,
+  `idPedido` int(11) NOT NULL,
+  `createdAt` timestamp NULL DEFAULT NULL,
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_pedidos1` (`idPedido`),
+  CONSTRAINT `fk_pedidos1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

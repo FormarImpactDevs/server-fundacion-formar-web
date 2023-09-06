@@ -32,12 +32,14 @@ module.exports = {
           data: category,
         };
 
-        res.status(200).json(response);
+        return res.status(200).json(response);
       } else {
+
         sendErrorResponse(res, 400, `Category with id: ${categoryId} does not exist`);
+
       }
     } catch (error) {
-      sendErrorResponse(res, 500, "Error fetching category");
+       return sendErrorResponse(res, 500, "Error fetching category");
     }
   },
   createCategory: async (req, res) => {
