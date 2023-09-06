@@ -1,4 +1,4 @@
-/* const { generateToken } = require("../../helpers/jwt.helper"); */
+const { generateToken } = require("../../helpers/jwt.helper");
 const {
   getUsers,
   getUserById,
@@ -32,24 +32,29 @@ module.exports = {
       return res.status(500).json({ Error: error }); //si va mal envía un objeto JSON que contiene información sobre el error
     }
   },
-  getUserById: async (req, res) => { //obtiene los detalles de un usuario específico por su ID
+  getUserById: async (req, res) => {
     try {
-      const USER_ID = req.params.id; //contiene los detalles del usuario obtenidos de la base de datos
-      const { id, nombre, email } = await getUserById(
-        USER_ID
-      );
-
+      const USER_ID = req.params.id;
+      const user = await getUserById(USER_ID);
+  
+      if (!user) {
+        return res.status(404).json({ Error: `User with ID ${USER_ID} does not exist` });
+      }
+  
+      const { id, nombre, email } = user;
+  
       const USER_DATA_RESPONSE = {
         id,
         nombre,
         email,
       };
-
+  
       return res.status(200).json(USER_DATA_RESPONSE);
     } catch (error) {
-      return res.status(500).json({ Error: error });
+      return res.status(500).json({ Error: error.message });
     }
   },
+  
   createUser: async (req, res) => {
     try {
       const result = await insertUser({ 
@@ -72,13 +77,14 @@ module.exports = {
     try {
       const { email, password } = req.body;
       const user = await getUserByEmail(email);
-  
+      
+      
       if (!user) {
-        return res.status(401).json({ Error: "Invalid email or password" });
+        return res.status(404).json({ Error: `User with email ${EMAIL_ID} does not exist` });
       }
-  
+        
       const passwordMatch = await bcrypt.compare(password, user.password);
-  
+      
       if (!passwordMatch) {
         return res.status(401).json({ Error: "Invalid email or password" });
       }
@@ -90,6 +96,7 @@ module.exports = {
       return res.status(500).json({ Error: "An error occurred during login: " + error.message });
     }
   },
+  
   
   /* login: async (req, res) => {
     try {
@@ -114,7 +121,7 @@ module.exports = {
       const updatedData = {
         nombre: req.body.nombre ? req.body.nombre : user.nombre,
         email: req.body.email ? req.body.email : user.email,
-        contraseña: req.body.contraseña ? req.body.contraseña : user.contraseña,
+        /* contraseña: req.body.contraseña ? req.body.contraseña : user.contraseña, */
       };
       
       const result = await updateUser(USER_ID, updatedData);
