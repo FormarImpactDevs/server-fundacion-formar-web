@@ -7,7 +7,7 @@ const generateToken = (user) => {
   try {
     const USER_DATA = {
         id: user.id,
-        nombre: user.name,
+        nombre: user.nombre,
         email: user.email,
     }
     const payload = {
