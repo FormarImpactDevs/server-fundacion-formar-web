@@ -8,17 +8,17 @@ const {
   updateUser,
   login,
 } = require("../controllers/users/index");
-/* const { userRegisterValidationRules } = require("../validations/registerUser.validator"); */
+const { userRegisterValidationRules } = require("../validations/register.validator");
 const validate = require("../validations/index.validator");
-/* const userLoginValidationRules = require("../validations/loginUser.validator");
- */
+const userLoginValidationRules = require("../validations/login.validator");
+
 router
   .get("/", getUsers)
   .get("/:id", getUserById)
-/*   .post("/login", userLoginValidationRules(), validate, login)
-  .post("/register", userRegisterValidationRules(), validate, createUser) */
-  .post("/login", login)
-  .post("/create", createUser)
+  .post("/login", userLoginValidationRules(), validate, login)
+  .post("/register", userRegisterValidationRules(), validate, createUser)
+/*   .post("/login", login) */
+/*   .post("/create", createUser) */
   .put("/:id", updateUser)
   .delete("/:id", deleteUser);
 

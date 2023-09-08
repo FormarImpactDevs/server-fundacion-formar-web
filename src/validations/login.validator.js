@@ -5,12 +5,12 @@ const { getUserByEmail } = require("../services/users.service");
 const userLoginValidationRules = () => {
   return [
     check("email").isEmail().withMessage("Invalid email"),
-    check("pass").notEmpty().withMessage("Password is required"),
+    check("password").notEmpty().withMessage("Password is required"),
     body("custom").custom(async (value, { req }) => {
       
       return getUserByEmail(req.body.email)
         .then((user) => {
-          if (!bcrypt.compareSync(req.body.pass, user.dataValues.pass)) {
+          if (!bcrypt.compareSync(req.body.password, user.dataValues.password)) {
             return Promise.reject();
           }
         })

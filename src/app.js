@@ -11,6 +11,8 @@ const {
     usersRouter,
     categoryRouter,
     productRouter,
+    orderRouter,
+    notificationRouter
 } = require("./routes");
 
 const app = express();
@@ -29,6 +31,9 @@ app.use('/api/enterprises', enterpriseRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/notifications', notificationRouter);
+
 
 // Manejo de errores
 app.use((err, req, res, next) => {
