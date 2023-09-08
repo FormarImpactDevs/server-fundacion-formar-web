@@ -31,6 +31,10 @@ module.exports = (sequelize, dataTypes) => {
       as: "Punto_de_retiro",
       foreignKey: "punto_retiro_id",
     });
+    ORDER.hasOne(models.NotificationsMP, {
+      as: "notifications",
+      foreignKey: "idPedido",
+    });
   };
 
   return ORDER;

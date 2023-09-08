@@ -5,14 +5,15 @@ const express = require("express");
 const methodOverride = require("method-override");
 require('dotenv').config();
 const cors = require('cors')
-
 // Rutas
-const [ 
+const { 
     enterpriseRouter,
     usersRouter,
     categoryRouter,
     productRouter,
-] = require("./routes");
+    orderRouter,
+    notificationRouter
+} = require("./routes");
 
 const app = express();
 
@@ -26,10 +27,13 @@ app.use(methodOverride("_method"));
 app.use(cors());
 
 // Rutas
-app.use(`/api/enterprises`, enterpriseRouter);
-app.use(`/api/users`, usersRouter);
-app.use(`/api/category`, categoryRouter);
-app.use(`/api/products`, productRouter);
+app.use('/api/enterprises', enterpriseRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/product', productRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/notifications', notificationRouter);
+
 
 // Manejo de errores
 app.use((err, req, res, next) => {
