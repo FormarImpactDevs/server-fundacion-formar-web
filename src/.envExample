@@ -1,3 +1,6 @@
 DB_USERNAME= 
 DB_DATABASE= 
 DB_HOST=
+
+API_MP=https://api.mercadopago.com/
+ACCESS_TOKEN=
