@@ -27,13 +27,15 @@ module.exports = (sequelize, dataTypes) => {
   const ORDER = sequelize.define(alias, cols, config);
 
   ORDER.associate = (models) => {
+
     ORDER.hasMany(models.PuntoDeRetiro, {
       as: "Punto_de_retiro",
       foreignKey: "punto_retiro_id",
     });
-    ORDER.hasOne(models.NotificationsMP, {
-      as: "notifications",
-      foreignKey: "idPedido",
+
+    ORDER.hasOne(models.Payment, {
+      as: "payments",
+      foreignKey: "orderId",
     });
   };
 
