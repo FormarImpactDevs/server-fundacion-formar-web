@@ -8,13 +8,30 @@ module.exports = (sequelize, dataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    forma_retiro: dataTypes.STRING,
-    estado_del_pedido: dataTypes.STRING,
-    link: dataTypes.STRING,
-    client_data: dataTypes.TEXT,
-    punto_retiro_id: dataTypes.INTEGER,
-    numero_orden: dataTypes.STRING,
-    tipo_de_entrega: dataTypes.STRING,
+    tipo_de_entrega: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    estado_del_pedido: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    link: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    client_data: {
+      type: dataTypes.TEXT,
+      allowNull: false,
+    },
+    punto_retiro_id: {
+      type: dataTypes.INTEGER,
+      allowNull: false,
+    },
+    numero_orden: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
   };
 
   const config = {
@@ -28,7 +45,7 @@ module.exports = (sequelize, dataTypes) => {
 
   ORDER.associate = (models) => {
 
-    ORDER.hasMany(models.PuntoDeRetiro, {
+    ORDER.hasOne(models.PuntoDeRetiro, {
       as: "Punto_de_retiro",
       foreignKey: "punto_retiro_id",
     });

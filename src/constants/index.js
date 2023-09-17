@@ -8,4 +8,9 @@ const NOTIFICATIONS_CONSTANTS = {
   },
 };
 
-module.exports = { NOTIFICATIONS_CONSTANTS };
+const ORDER_CONSTANTS = {
+    POINT: "point",
+    DELIVERY: "delivery",
+};
+
+module.exports = { NOTIFICATIONS_CONSTANTS, ORDER_CONSTANTS };

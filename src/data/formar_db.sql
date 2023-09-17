@@ -140,7 +140,6 @@ DROP TABLE IF EXISTS `pedidos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedidos` (
   `id` int(11) AUTO_INCREMENT NOT NULL,
-  `forma_retiro` varchar(45) NOT NULL,
   `estado_del_pedido` varchar(45) NOT NULL,
   `link` varchar(255) NOT NULL,
   `client_data` text NOT NULL,
