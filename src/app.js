@@ -12,7 +12,9 @@ const {
     categoryRouter,
     productRouter,
     orderRouter,
-    notificationRouter
+    notificationRouter,
+    paymentRouter,
+    
 } = require("./routes");
 
 const app = express();
@@ -33,6 +35,7 @@ app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/notifications', notificationRouter);
+app.use('/api/payment', paymentRouter);
 
 
 // Manejo de errores
