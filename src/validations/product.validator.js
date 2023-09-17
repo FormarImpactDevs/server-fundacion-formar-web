@@ -1,14 +1,14 @@
-const { body } = require("express-validator");
+ const { body } = require("express-validator");
 
 const productValidationRules = () => {
   return [
-    body("nombre").notEmpty().withMessage("Nombre is required"),
-    body("precio").notEmpty().withMessage("Precio is required").isInt().withMessage("Invalid precio"),
-    body("descuento").optional().isInt().withMessage("Invalid discount"),
-    body("descripcion").optional().isLength({ max: 800 }).withMessage("Description exceeds maximum length"),
-    body("categoria_id").notEmpty().withMessage("Category ID is required").isInt().withMessage("Invalid category ID"),
-    body("stock").notEmpty().withMessage("Stock is required").isInt().withMessage("Invalid stock"),
-    body("emprendimientos_id").notEmpty().withMessage("Emprendimientos ID is required").isInt().withMessage("Invalid emprendimientos ID"),
+    body("nombre").notEmpty().withMessage("Nombre es requerido"),
+    body("precio").notEmpty().withMessage("Precio es requerido").isInt().withMessage("precio invalido"),
+    body("descuento").optional().isInt().withMessage("Descuento invalido"),
+    body("descripcion").optional().isLength({ max: 800 }).withMessage("Descripcion excede el maximo permitido"),
+    body("categoria_id").notEmpty().withMessage("Categoria ID es requerida").isInt().withMessage("Categoria ID invalida"),
+    body("stock").notEmpty().withMessage("Stock es requerido").isInt().withMessage("Stock invalido"),
+    body("emprendimientos_id").notEmpty().withMessage("Emprendimientos ID es requerido").isInt().withMessage("Emprendimientos ID invalido"),
   ];
 };
 
