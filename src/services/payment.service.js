@@ -21,6 +21,17 @@ const getPaymentByOrderId = async (orderId) => {
   }
 };
 
+// Obtener un pago por id
+const getPaymentById = async (id) => {
+  try {
+    return await db.Payment.findByPk(id);
+  } catch (error) {
+    console.error(error);
+
+    throw new Error('Error al obtener el pago');
+  }
+};
+
 // Agregar un pago
 const addPayment = async (paymentData) => {
   try {
@@ -66,4 +77,5 @@ module.exports = {
   addPayment,
   updatePayment,
   deletePayment,
+  getPaymentById
 };

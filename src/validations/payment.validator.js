@@ -10,7 +10,7 @@ const validatePaymentFields = [
   body('status').notEmpty().isString(),
   body('status_detail').notEmpty().isString(),
   body('transaction_amount').notEmpty().isNumeric(),
-  body('orderId').notEmpty().isString(),
+  body('orderId').notEmpty().isNumeric(),
 ];
 
 module.exports = {

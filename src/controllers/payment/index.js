@@ -12,6 +12,18 @@ const getAllPayments = async (req, res) => {
   }
 };
 
+// Obtener un pago por id
+const getPaymentById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const payment = await paymentService.getPaymentById(id);
+    return res.status(200).json(payment);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 // Obtener un pago por orderId
 const getPaymentByOrderId = async (req, res) => {
   const { orderId } = req.params;
@@ -77,4 +89,5 @@ module.exports = {
   addPayment,
   updatePayment,
   deletePayment,
+  getPaymentById
 };

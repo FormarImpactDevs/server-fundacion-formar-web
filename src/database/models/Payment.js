@@ -45,7 +45,7 @@ module.exports = (sequelize, dataTypes) => {
       allowNull: false,
     },
     orderId: {
-      type: dataTypes.STRING,
+      type: dataTypes.INTEGER,
       allowNull: false,
     },
   };
