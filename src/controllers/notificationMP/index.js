@@ -1,7 +1,8 @@
+const { NOTIFICATIONS_CONSTANTS } = require("../../constants");
+const { getMpPaymentById } = require("../../services/mp.services");
 const {
   getNotificationsMP,
   insertNotification,
-  updateOrder,
 } = require("../../services/notificationMP.service");
 
 const sendResponse = require("../../utils/sendResponse");
@@ -23,17 +24,81 @@ module.exports = {
 
   insertNotification: async (req, res) => {
     try {
+      const { 
+        id, 
+        type, 
+        data, 
+        action, 
+        live_mode, 
+        date_created, 
+        application_id,
+        user_id,
+        version,
+        api_version
+      } =
+        req.body;
       const result = await insertNotification({
-        ...req.body,
+        notificationId: id,
+        type,
+        data: JSON.stringify(data),
+        action,
+        live_mode,
+        date_created,
+        application_id,
+        user_id,
+        version,
+        api_version,
+        paymentId: data.id,
       });
 
       if (result) {
-        const updatedDataOrder = await updateOrder({
-          id: result.idPedido,
-          estado_del_pedido: result.data,
-        });
-
-        const SUCCESS_RESPONSE = "Notificación guardada satisfactoriamente";
+        if( type === NOTIFICATIONS_CONSTANTS.type.PAYMENT) {
+          if (action === NOTIFICATIONS_CONSTANTS.action.PAYMENT_CREATED) {
+            const paymentInfo = await getMpPaymentById(data.id);
+           
+            await db.Payment.create({
+              paymentId: paymentInfo.id,
+              description: paymentInfo.description,
+              payer_email: paymentInfo.payer.email,
+              payerId: paymentInfo.payer.id,
+              payer_details: JSON.stringify(paymentInfo.payer),
+              payment_method_id: paymentInfo.payment_method_id,
+              status: paymentInfo.status,
+              status_detail: paymentInfo.status_detail,
+              transaction_amount: paymentInfo.transaction_amount,
+              orderId: paymentInfo.external_reference
+            });
+  
+            if (paymentInfo.status === "approved") {
+              /* TODO Actualizar pedido a aprobado */
+            } else {
+              /* TODO Actualizar con los datos de la notificacion */
+            }
+          }
+  
+          if (action === NOTIFICATIONS_CONSTANTS.action.PAYMENT_UPDATED) {
+            const paymentInfo = await getMpPaymentById(data.id);
+            await db.Payment.update({
+              description: paymentInfo.description,
+              payerId: paymentInfo.payer.id,
+              payer_details: JSON.stringify(paymentInfo.payer),
+              payment_method_id: paymentInfo.payment_method_id,
+              status: paymentInfo.status,
+              status_detail: paymentInfo.status_detail,
+              transaction_amount: paymentInfo.transaction_amount,
+            }, {
+              where: {
+                paymentId: paymentInfo.id
+              }
+            });
+  
+            if (paymentInfo.status === "approved") {
+              /* TODO Actualizar pedido a aprobado */
+            } else {
+              /* TODO Actualizar con los datos de la notificacion */
+            }
+          }
+        }
 
         return sendResponse(res, 201, SUCCESS_RESPONSE, result);
       } else {
