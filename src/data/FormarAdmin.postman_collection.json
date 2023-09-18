@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5071ab19-4918-4ad6-ad2f-28b6602ed56c",
+		"_postman_id": "9058f2d8-c1c7-4d76-982f-3ddb1dd46d69",
 		"name": "FormarAdmin",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29260321",
-		"_collection_link": "https://cloudy-meteor-224143.postman.co/workspace/Team-Workspace~aab73c16-0542-443e-8aba-326b639dd98f/collection/29260321-5071ab19-4918-4ad6-ad2f-28b6602ed56c?action=share&source=collection_link&creator=29260321"
+		"_exporter_id": "14125186"
 	},
 	"item": [
 		{
@@ -16,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/enterprises/1",
+							"raw": "http://localhost:3000/api/enterprises/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -25,7 +24,7 @@
 							"path": [
 								"api",
 								"enterprises",
-								"1"
+								"0"
 							]
 						}
 					},
@@ -57,29 +56,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "nombre",
-									"value": "Emprendimiento de prueba",
-									"type": "text"
-								},
-								{
-									"key": "descripcion",
-									"value": "Descripcion de prueba",
-									"type": "text"
-								},
-								{
-									"key": "foto_card",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "foto_emprendimiento",
-									"type": "file",
-									"src": []
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Emprendimiento de prueba\",\r\n    \"descripcion\": \"Descripcion de prueba\",\r\n    \"foto_card\": \"foto1\",\r\n    \"foto_emprendimento\": \"fotoemp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "http://localhost:3000/api/enterprises/create",
@@ -103,32 +86,16 @@
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "nombre",
-									"value": "Emprendimiento de prueba editado",
-									"type": "text"
-								},
-								{
-									"key": "descripcion",
-									"value": "Descripción de emprendimiento",
-									"type": "text"
-								},
-								{
-									"key": "foto_card",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "foto_emprendimiento",
-									"type": "file",
-									"src": []
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Emprendimiento de prueba editado\",\r\n    \"descripcion\": \"Descripcion de prueba\",\r\n    \"foto_card\": \"foto1\",\r\n    \"foto_emprendimento\": \"fotoemp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/enterprises/update/1",
+							"raw": "http://localhost:3000/api/enterprises/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -137,8 +104,7 @@
 							"path": [
 								"api",
 								"enterprises",
-								"update",
-								"1"
+								"0"
 							]
 						}
 					},
@@ -150,7 +116,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/enterprises/delete/1",
+							"raw": "http://localhost:3000/api/enterprises/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -159,54 +125,7 @@
 							"path": [
 								"api",
 								"enterprises",
-								"delete",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Agregar emprendimiento",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "nombre",
-									"value": "Dulces creaciones",
-									"type": "text"
-								},
-								{
-									"key": "descripcion",
-									"value": "Creaciones en porcelana fría",
-									"type": "text"
-								},
-								{
-									"key": "foto_card",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "foto_emprendimiento",
-									"type": "file",
-									"src": []
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/enterprises/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"enterprises",
-								"create"
+								"0"
 							]
 						}
 					},
@@ -218,7 +137,7 @@
 			"name": "Category",
 			"item": [
 				{
-					"name": "lista de categorias",
+					"name": "Lista de categorias",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -238,72 +157,9 @@
 					"response": []
 				},
 				{
-					"name": "detalle de categorias",
+					"name": "Detalle de categoria",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/category/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"category",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "crear categoria",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/category/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"category",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "editar categoria",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/category/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"category",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "eliminar categoria",
-					"request": {
-						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:3000/api/category/1",
@@ -368,369 +224,133 @@
 					"response": []
 				}
 			]
-		}, 
-		{
-		"name" : "Users",
-		"item": [
-			{
-				"name": "Lista de usuarios",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"url": {
-						"raw": "http://localhost:3000/api/users",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Crear usuario",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "{\r\n    \"nombre\" : \"Aixa\",\r\n    \"email\" : \"aixa@gmail.com\",\r\n    \"pass\" : \"12345sos\"\r\n}\r\n\r\n",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/register",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"register"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Usuario por ID",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/10",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"10"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Login token",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "{   \r\n    \"email\": \"franco17@gmail.com\",\r\n    \"password\": \"12345sos\"\r\n}",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/login",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"login"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Eliminar usuario",
-				"request": {
-					"method": "DELETE",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/8",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"8"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Editar usuario",
-				"request": {
-					"method": "PUT",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "{\r\n    \"id\": 5,\r\n    \"nombre\": \" franco spinelli\",\r\n    \"email\": \"franco19@gmail.com\"\r\n}",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/5",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"5"
-						]
-					}
-				},
-				"response": []
-			}
-		
-		
-		]
-	},
-	 [
-		{
-			"name": "creacion productos",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "nombre",
-							"value": "test",
-							"type": "text"
-						},
-						{
-							"key": "descripcion",
-							"value": "juguete",
-							"type": "text"
-						},
-						{
-							"key": "precio",
-							"value": "500",
-							"type": "text"
-						},
-						{
-							"key": "categoria_id",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "stock",
-							"value": "3",
-							"type": "text"
-						},
-						{
-							"key": "emprendimientos_id",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "descuento",
-							"value": "10",
-							"type": "text"
-						},
-						{
-							"key": "foto_card",
-							"type": "file",
-							"src": "/C:/Users/123-C5CV9/OneDrive/Imágenes/Capturas de pantalla/contacto.png"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/product/create",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"create"
-					]
-				}
-			},
-			"response": []
 		},
 		{
-			"name": "listado productos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "productos id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product/22",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"22"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "editar producto",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product/update/22?nombre=cartas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"update",
-						"22"
-					],
-					"query": [
-						{
-							"key": "nombre",
-							"value": "cartas"
-						},
-						{
-							"key": "precio",
-							"value": "123",
-							"disabled": true
-						},
-						{
-							"key": "categoria_id",
-							"value": "1",
-							"disabled": true
-						},
-						{
-							"key": "stock",
-							"value": "1",
-							"disabled": true
-						},
-						{
-							"key": "emprendimientos_id",
-							"value": "1",
-							"disabled": true
+			"name": "Users",
+			"item": [
+				{
+					"name": "Lista de usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Detalle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Prueba\",\r\n    \"email\": \"mail@mail.com\",\r\n    \"pass\": \"jona123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pruebaedit\",\r\n    \"email\": \"mail@mail.com\",\r\n    \"pass\": \"jona123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"0"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "eliminar producto",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product/delete/22",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"delete",
-						"22"
-					]
-				}
-			},
-			"response": []
+			]
 		}
-	]
-
 	]
 }
