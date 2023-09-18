@@ -16,13 +16,13 @@ const {
 router.get("/", getAllOrders);
 
 // Obtener una orden por su ID
-router.get("/:id", getOrderById);
+router.get("/:orderNumber", getOrderById);
 
 // Crear una nueva orden
 router.post("/", validateCreateOrder, createNewOrder);
 
 // Actualizar una orden por su ID
-router.put("/:id", validateUpdateOrder, updateOrderById);
+router.put("/:orderNumber", validateUpdateOrder, updateOrderById);
 
 // Eliminar una orden por su ID
 router.delete("/:id", deleteOrderById);

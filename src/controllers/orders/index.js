@@ -8,6 +8,8 @@ async function getAllOrders(req, res) {
     const orders = await Order.findAll();
     return res.json(orders);
   } catch (error) {
+    console.error(error)
+
     return res.status(500).json({ error: 'Error al obtener las órdenes' });
   }
 }
@@ -16,12 +18,13 @@ async function getAllOrders(req, res) {
 async function getOrderById(req, res) {
   const { orderNumber } = req.params;
   try {
-    const order = await Order.findOne({where: { numero_order: orderNumber}});
+    const order = await Order.findOne({where: { numero_orden: orderNumber}});
     if (!order) {
       return res.status(404).json({ error: 'Orden no encontrada' });
     }
     return res.json(order);
   } catch (error) {
+    console.error(error)
     return res.status(500).json({ error: 'Error al obtener la orden' });
   }
 }
