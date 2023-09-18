@@ -47,7 +47,9 @@ module.exports = {
   createEnterprise: async (req, res) => {
     let { nombre, descripcion } = req.body;
     const errors = validationResult(req);
-
+    /* console.log(req.body);
+    console.log(req.files);
+    console.log(req.File); */
     let photos = [];
     if (req.files.foto_card) {
       photos.push(req.files.foto_card[0].filename);
@@ -121,50 +123,64 @@ module.exports = {
     const Enterprise = await getEnterpriseById(ENTERPRISE_ID);
 
     let { nombre, descripcion } = req.body;
+    const errors = validationResult(req);
 
     let filesOld = [];
 
     let filesNew = [];
 
-    try {
-      if (req.files.foto_card) {
-        filesOld.push(Enterprise.foto_card);
-        filesNew.push(req.files.foto_card[0].filename);
-      }
+    if (errors.isEmpty()) {
+      try {
+        if (req.files.foto_card) {
+          filesOld.push(Enterprise.foto_card);
+          filesNew.push(req.files.foto_card[0].filename);
+        }
 
-      if (req.files.foto_emprendimiento) {
-        filesOld.push(Enterprise.foto_emprendimiento);
-        filesNew.push(req.files.foto_emprendimiento[0].filename);
-      }
+        if (req.files.foto_emprendimiento) {
+          filesOld.push(Enterprise.foto_emprendimiento);
+          filesNew.push(req.files.foto_emprendimiento[0].filename);
+        }
 
-      if (filesOld.length > 0) {
-        await deletedFiles("imagesEnterprises", filesOld);
-      }
-      const result = await updateEnterprise({
-        id: ENTERPRISE_ID,
-        nombre: nombre ? nombre : Enterprise.nombre,
-        descripcion: descripcion ? descripcion : Enterprise.descripcion,
-        foto_card: req.files.foto_card
-          ? req.files.foto_card[0].filename
-          : Enterprise.foto_card,
-        foto_emprendimiento: req.files.foto_emprendimiento
-          ? req.files.foto_emprendimiento[0].filename
-          : Enterprise.foto_emprendimiento,
-      });
+        if (filesOld.length > 0) {
+          await deletedFiles("imagesEnterprises", filesOld);
+        }
+        const result = await updateEnterprise({
+          id: ENTERPRISE_ID,
+          nombre: nombre ? nombre : Enterprise.nombre,
+          descripcion: descripcion ? descripcion : Enterprise.descripcion,
+          foto_card: req.files.foto_card
+            ? req.files.foto_card[0].filename
+            : Enterprise.foto_card,
+          foto_emprendimiento: req.files.foto_emprendimiento
+            ? req.files.foto_emprendimiento[0].filename
+            : Enterprise.foto_emprendimiento,
+        });
 
-      if (result) {
-        const SUCCESS_RESPONSE =
-          "Emprendimiento actualizado satisfactoriamente";
+        if (result) {
+          const SUCCESS_RESPONSE =
+            "Emprendimiento actualizado satisfactoriamente";
 
-        return sendResponse(res, 201, SUCCESS_RESPONSE, result);
-      } else {
+          return sendResponse(res, 201, SUCCESS_RESPONSE, result);
+        } else {
+          if (filesNew.length > 0) {
+            await deletedFiles("imagesEnterprises", filesNew);
+          }
+          const ERROR_RESPONSE = "Ocurrió un error";
+          return sendResponse(res, 400, ERROR_RESPONSE, result);
+        }
+      } catch (error) {
         if (filesNew.length > 0) {
           await deletedFiles("imagesEnterprises", filesNew);
         }
-        const ERROR_RESPONSE = "Ocurrió un error";
-        return sendResponse(res, 400, ERROR_RESPONSE, result);
+
+        return sendResponse(
+          res,
+          500,
+          "Ocurrió un error al tratar de actualizar el Emprendimiento ",
+          error
+        );
       }
-    } catch (error) {
+    }else {
       if (filesNew.length > 0) {
         await deletedFiles("imagesEnterprises", filesNew);
       }
@@ -172,8 +188,7 @@ module.exports = {
       return sendResponse(
         res,
         500,
-        "Ocurrió un error al tratar de actualizar el Emprendimiento ",
-        error
+        "Ocurrió un error al tratar de actualizar el Emprendimiento "
       );
     }
   },

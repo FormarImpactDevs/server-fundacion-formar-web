@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5071ab19-4918-4ad6-ad2f-28b6602ed56c",
+		"_postman_id": "9564c919-86a7-48fd-b37c-7c980d96c199",
 		"name": "FormarAdmin",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29260321",
-		"_collection_link": "https://cloudy-meteor-224143.postman.co/workspace/Team-Workspace~aab73c16-0542-443e-8aba-326b639dd98f/collection/29260321-5071ab19-4918-4ad6-ad2f-28b6602ed56c?action=share&source=collection_link&creator=29260321"
+		"_exporter_id": "14125186"
 	},
 	"item": [
 		{
@@ -61,7 +60,7 @@
 							"formdata": [
 								{
 									"key": "nombre",
-									"value": "Emprendimiento de prueba",
+									"value": "Emprendimiento de prueba 2",
 									"type": "text"
 								},
 								{
@@ -72,7 +71,7 @@
 								{
 									"key": "foto_card",
 									"type": "file",
-									"src": []
+									"src": "/C:/Users/Jonatan/Pictures/c19.png"
 								},
 								{
 									"key": "foto_emprendimiento",
@@ -107,7 +106,7 @@
 							"formdata": [
 								{
 									"key": "nombre",
-									"value": "Emprendimiento de prueba editado",
+									"value": "Emprendimiento de prueba editado 2",
 									"type": "text"
 								},
 								{
@@ -118,7 +117,7 @@
 								{
 									"key": "foto_card",
 									"type": "file",
-									"src": []
+									"src": "/C:/Users/Jonatan/Pictures/c19.png"
 								},
 								{
 									"key": "foto_emprendimiento",
@@ -165,52 +164,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Agregar emprendimiento",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "nombre",
-									"value": "Dulces creaciones",
-									"type": "text"
-								},
-								{
-									"key": "descripcion",
-									"value": "Creaciones en porcelana fría",
-									"type": "text"
-								},
-								{
-									"key": "foto_card",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "foto_emprendimiento",
-									"type": "file",
-									"src": []
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/enterprises/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"enterprises",
-								"create"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -218,7 +171,7 @@
 			"name": "Category",
 			"item": [
 				{
-					"name": "lista de categorias",
+					"name": "Lista de categorias",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -238,72 +191,9 @@
 					"response": []
 				},
 				{
-					"name": "detalle de categorias",
+					"name": "Detalle de categoria",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/category/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"category",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "crear categoria",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/category/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"category",
-								"create"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "editar categoria",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/category/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"category",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "eliminar categoria",
-					"request": {
-						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:3000/api/category/1",
@@ -332,7 +222,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/products",
+							"raw": "http://localhost:3000/api/product",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -340,7 +230,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"products"
+								"product"
 							]
 						}
 					},
@@ -352,7 +242,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/products/1",
+							"raw": "http://localhost:3000/api/product/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -360,377 +250,426 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"products",
+								"product",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "descuento",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "emprendimientos_id",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "categoria_id",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/product/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"product",
+								"create"
 							]
 						}
 					},
 					"response": []
 				}
 			]
-		}, 
-		{
-		"name" : "Users",
-		"item": [
-			{
-				"name": "Lista de usuarios",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"url": {
-						"raw": "http://localhost:3000/api/users",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Crear usuario",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "{\r\n    \"nombre\" : \"Aixa\",\r\n    \"email\" : \"aixa@gmail.com\",\r\n    \"pass\" : \"12345sos\"\r\n}\r\n\r\n",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/register",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"register"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Usuario por ID",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/10",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"10"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Login token",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "{   \r\n    \"email\": \"franco17@gmail.com\",\r\n    \"password\": \"12345sos\"\r\n}",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/login",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"login"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Eliminar usuario",
-				"request": {
-					"method": "DELETE",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/8",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"8"
-						]
-					}
-				},
-				"response": []
-			},
-			{
-				"name": "Editar usuario",
-				"request": {
-					"method": "PUT",
-					"header": [],
-					"body": {
-						"mode": "raw",
-						"raw": "{\r\n    \"id\": 5,\r\n    \"nombre\": \" franco spinelli\",\r\n    \"email\": \"franco19@gmail.com\"\r\n}",
-						"options": {
-							"raw": {
-								"language": "json"
-							}
-						}
-					},
-					"url": {
-						"raw": "http://localhost:3000/api/users/5",
-						"protocol": "http",
-						"host": [
-							"localhost"
-						],
-						"port": "3000",
-						"path": [
-							"api",
-							"users",
-							"5"
-						]
-					}
-				},
-				"response": []
-			}
-		
-		
-		]
-	},
-	 [
-		{
-			"name": "creacion productos",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "nombre",
-							"value": "test",
-							"type": "text"
-						},
-						{
-							"key": "descripcion",
-							"value": "juguete",
-							"type": "text"
-						},
-						{
-							"key": "precio",
-							"value": "500",
-							"type": "text"
-						},
-						{
-							"key": "categoria_id",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "stock",
-							"value": "3",
-							"type": "text"
-						},
-						{
-							"key": "emprendimientos_id",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "descuento",
-							"value": "10",
-							"type": "text"
-						},
-						{
-							"key": "foto_card",
-							"type": "file",
-							"src": "/C:/Users/123-C5CV9/OneDrive/Imágenes/Capturas de pantalla/contacto.png"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/product/create",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"create"
-					]
-				}
-			},
-			"response": []
 		},
 		{
-			"name": "listado productos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "productos id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product/22",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"22"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "editar producto",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product/update/22?nombre=cartas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"update",
-						"22"
-					],
-					"query": [
-						{
-							"key": "nombre",
-							"value": "cartas"
-						},
-						{
-							"key": "precio",
-							"value": "123",
-							"disabled": true
-						},
-						{
-							"key": "categoria_id",
-							"value": "1",
-							"disabled": true
-						},
-						{
-							"key": "stock",
-							"value": "1",
-							"disabled": true
-						},
-						{
-							"key": "emprendimientos_id",
-							"value": "1",
-							"disabled": true
+			"name": "Users",
+			"item": [
+				{
+					"name": "Lista de usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Detalle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Prueba2\",\r\n    \"email\": \"mail2@mail.com\",\r\n    \"password\": \"jona123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Pruebaedit\",\r\n    \"email\": \"mail@mail.com\",\r\n    \"pass\": \"jona123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"0"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "eliminar producto",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/product/delete/22",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"product",
-						"delete",
-						"22"
-					]
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Crear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentId\": \"1234567890\",\r\n  \"description\": \"Pago de ejemplo\",\r\n  \"payer_email\": \"ejemplo@gmail.com\",\r\n  \"payerId\": \"9876543210\",\r\n  \"payer_details\": \"Detalles del pagador\",\r\n  \"payment_method_id\": \"paypal\",\r\n  \"status\": \"pendiente\",\r\n  \"status_detail\": \"pago exitoso\",\r\n  \"transaction_amount\": 100.50,\r\n  \"orderId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar pagos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentId\": \"1234567890\",\r\n  \"description\": \"Pago de ejemplo\",\r\n  \"payer_email\": \"ejemplo@gmail.com\",\r\n  \"payerId\": \"9876543210\",\r\n  \"payer_details\": \"Detalles del pagador\",\r\n  \"payment_method_id\": \"paypal\",\r\n  \"status\": \"pendiente\",\r\n  \"status_detail\": \"pago exitoso\",\r\n  \"transaction_amount\": 100.50,\r\n  \"orderId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/payment/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pago por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/payment/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pago por orderId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/payment/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar pago",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/payment/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"description": "API para gestionar todos los pagos de la aplicacion"
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tipo_de_entrega\": \"point\",\r\n  \"client_data\": {\r\n    \"name\": \"Nombre del Cliente\",\r\n    \"email\": \"test_user_76198889@testuser.com\",\r\n    \"phone\": \"123-456-7890\",\r\n    \"dni\": \"12345678\"\r\n  },\r\n  \"punto_retiro_id\": 1,\r\n  \"numero_orden\": \"P-2023-09-21\",\r\n  \"detalle_pedido\": [\r\n    {\r\n      \"title\": \"Producto 1\",\r\n      \"description\": \"Descripción del Producto 1\",\r\n      \"category_id\": \"Productos\",\r\n      \"quantity\": 2,\r\n      \"unit_price\": 10.99\r\n    },\r\n    {\r\n      \"title\": \"Producto 2\",\r\n      \"description\": \"Descripción del Producto 2\",\r\n      \"category_id\": \"Productos\",\r\n      \"quantity\": 1,\r\n      \"unit_price\": 19.99\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener por numero orden",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/orders/P-dbe31d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"orders",
+								"P-dbe31d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
-	]
-
 	]
 }

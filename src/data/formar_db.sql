@@ -15,6 +15,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+DROP DATABASE IF EXISTS  formar_db;
+CREATE DATABASE  formar_db;
+USE  formar_db;
 --
 -- Table structure for table `categoria`
 --
@@ -23,7 +26,7 @@ DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categoria` (
-  `id` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -46,11 +49,11 @@ DROP TABLE IF EXISTS `emprendimientos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `emprendimientos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `descripcion` varchar(200) NOT NULL,
+  `descripcion` text NOT NULL,
   `foto_card` varchar(45) NOT NULL,
-  `foto_emprendimiento` varchar(45) NOT NULL,  
+  `foto_emprendimiento` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -72,8 +75,7 @@ DROP TABLE IF EXISTS `imagenes_productos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `imagenes_productos` (
-  `id` int(11) NOT NULL,
-  `idProducto` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `imagen` varchar(45) NOT NULL,
   `productos_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -99,9 +101,24 @@ DROP TABLE IF EXISTS `notificaciones_mp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notificaciones_mp` (
-  `id` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
+  `notificationId` varchar(100) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `data` varchar(255) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `live_mode` boolean NOT NULL,
+  `date_created` date NOT NULL,
+  `application_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `version` int NOT NULL,
+  `api_version` varchar(255) NOT NULL,
+  `paymentId` varchar(255) NOT NULL,
   `idPedido` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `createdAt` timestamp NULL DEFAULT NULL,
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_pedidos1` (`idPedido`),
+  CONSTRAINT `fk_pedidos1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,14 +139,15 @@ DROP TABLE IF EXISTS `pedidos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedidos` (
-  `id` int(11) NOT NULL,
-  `forma_retiro` varchar(45) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `estado_del_pedido` varchar(45) NOT NULL,
   `link` varchar(255) NOT NULL,
-  `clientData` text NOT NULL,
+  `client_data` text NOT NULL,
   `punto_retiro_id` int(11) NOT NULL,
   `numero_orden` varchar(45) NOT NULL,
   `tipo_de_entrega` varchar(45) NOT NULL,
+  `detalle_pedido` TEXT NOT NULL,
+  `monto_total` int(11) NOT NULL,
   PRIMARY KEY (`id`,`punto_retiro_id`),
   KEY `fk_pedidos_punto_retiro1` (`punto_retiro_id`),
   CONSTRAINT `fk_pedidos_punto_retiro1` FOREIGN KEY (`punto_retiro_id`) REFERENCES `punto_de_retiro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -149,11 +167,41 @@ UNLOCK TABLES;
 -- Table structure for table `productos`
 --
 
+DROP TABLE IF EXISTS `pagos`;
+CREATE TABLE `pagos` (  
+    `id` int(11) AUTO_INCREMENT NOT NULL,
+    `paymentId` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) NOT NULL,
+    `payer_email` VARCHAR(255) NOT NULL,
+    `payerId` VARCHAR(255) NOT NULL,
+    `payer_details` VARCHAR(255) NOT NULL,
+    `payment_method_id` VARCHAR(255) NOT NULL,
+    `status` VARCHAR(255) NOT NULL,
+    `status_detail` VARCHAR(255) NOT NULL,
+    `transaction_amount` VARCHAR(255) NOT NULL,
+    `orderId` INT(11) NOT NULL,
+    `createdAt` DATETIME NOT NULL,
+    `updatedAt` DATETIME NOT NULL,
+    PRIMARY KEY (`id`,`orderId`),
+    KEY `fk_pagos_pedidos1` (`orderId`),
+    CONSTRAINT `fk_pagos_pedidos1` FOREIGN KEY (`orderId`) REFERENCES `pedidos`(`id`)  ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pagos`
+--
+
+LOCK TABLES `pagos` WRITE;
+/*!40000 ALTER TABLE `pagos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pagos` ENABLE KEYS */;
+UNLOCK TABLES;
+
 DROP TABLE IF EXISTS `productos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `productos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `precio` int(11) NOT NULL,
   `descripcion` text NOT NULL,
@@ -186,7 +234,7 @@ DROP TABLE IF EXISTS `punto_de_retiro`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `punto_de_retiro` (
-  `id` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `nombre` varchar(200) NOT NULL,
   `descripcion` text NOT NULL,
   `telefono` int(11) NOT NULL,
@@ -211,7 +259,7 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
+  `id` int(11) AUTO_INCREMENT NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,

@@ -1,198 +1,89 @@
-const {
-  deleteOrder,
-  getOrderById,
-  getOrderByUser,
-  getOrders,
-  insertOrder,
-  updateOrder,
-} = require("../../services/order.service");
+const { validationResult } = require('express-validator');
+const { Order } = require('../../database/models');
+const { createOrder, updateOrder, deleteOrder } = require('../../services/order.service');
+
+// Listar todas las órdenes
+async function getAllOrders(req, res) {
+  try {
+    const orders = await Order.findAll();
+    return res.json(orders);
+  } catch (error) {
+    console.error(error)
+
+    return res.status(500).json({ error: 'Error al obtener las órdenes' });
+  }
+}
+
+// Obtener una orden por su ID
+async function getOrderById(req, res) {
+  const { orderNumber } = req.params;
+  try {
+    const order = await Order.findOne({where: { numero_orden: orderNumber}});
+    if (!order) {
+      return res.status(404).json({ error: 'Orden no encontrada' });
+    }
+    return res.json(order);
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Error al obtener la orden' });
+  }
+}
+
+// Crear una nueva orden
+async function createNewOrder(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const order = await createOrder(req.body);
+
+    return res.status(201).json(order);
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ error: 'Error al crear la orden' });
+  }
+}
+
+// Actualizar una orden por su ID
+async function updateOrderById(req, res) {
+  const { orderNumber } = req.params;
+
+  try {
+    const order = await updateOrder(orderNumber, req.body);
+
+    if (!order) {
+      return res.status(404).json({ error: 'Orden no encontrada' });
+    }
+
+    return res.json(order);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al actualizar la orden' });
+  }
+}
+
+// Eliminar una orden por su ID
+async function deleteOrderById(req, res) {
+  const { id } = req.params;
+
+  try {
+    const result = await deleteOrder(id);
+
+    if (result === null) {
+      return res.status(404).json({ error: 'Orden no encontrada' });
+    }
+
+    return res.json({ message: 'Orden eliminada con éxito' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error al eliminar la orden' });
+  }
+}
 
 module.exports = {
-  getOrders: async (req, res) => {
-    try {
-      const orders = await getOrders();
-      const RESPONSE = {
-        count: orders.length,
-        orders,
-      };
-      return res.status(200).json(RESPONSE);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error });
-    }
-  },
-  getOrderById: async (req, res) => {
-    try {
-      const ORDER_ID = req.params.orderId;
-      const order = await getOrderById(ORDER_ID);
-      return res.status(200).json(order);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error });
-    }
-  },
-  getOrderByUser: async (req, res) => {
-    try {
-      const { id } = req.user;
-      const order = await getOrderByUser(id);
-
-      let response;
-
-      if (order) {
-        return res.status(200).json(order);
-      } else {
-        response = `El usuario ${id} no tiene una orden creada`;
-        return res.status(400).json(response);
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error });
-    }
-  },
-  addToOrder: async (req, res) => {
-    try {
-      const { id: user_id } = req.user;
-      const order = await getOrderByUser(user_id);
-
-      const { productId, quantity } = req.body;
-
-      if (order) {
-        const { id } = order;
-        let orderItemData;
-        const itemsFromOrder = await getOrderByOrder(id);
-        const itemToAdd = itemsFromOrder?.find(
-          (item) => item.productId === productId
-        );
-
-        if (itemToAdd) {
-          orderItemData = {
-            productId: itemToAdd.productId,
-            orderId: itemToAdd.orderId,
-            quantity: itemToAdd.quantity + 1,
-          };
-
-          const updateOrderItemFetch = await updateOrderItem(
-            orderItemData,
-            itemToAdd.id
-          );
-
-          return res.status(200).json("Producto modificado");
-        } else {
-          orderItemData = {
-            productId,
-            orderId: id,
-            quantity: 1,
-          };
-
-          const createOrderItemInOrder = await insertOrderItem(orderItemData);
-
-          return res.status(201).json("Producto agregado a la orden " + id);
-        }
-      } else {
-        const data = {
-          userId: userId,
-          state: "PENDIENTE",
-        };
-
-        const createOrder = await insertOrder(data);
-        let orderItemData = {
-          productId,
-          orderId: createOrder.id,
-          quantity: 1,
-        };
-
-        const createOrderItemInOrder = await insertOrderItem(orderItemData);
-
-        res.status(201).json("Orden creada, e item agregado");
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error });
-    }
-  },
-  removeOneItemFromOrder: async (req, res) => {
-    try {
-      const { itemId } = req.params;
-
-      const item = await getOrderItemById(itemId);
-
-      if (!item) return res.status(400).json(`El item ${itemId} no existe`);
-
-      if (item.quantity > 1) {
-        const updatedItem = {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-
-        const updatedItemResult = await updateOrderItem(updatedItem.itemId);
-
-        return updatedItemResult
-          ? res.status(200).json("Item actualizado correctamente")
-          : res.status(400).json("Hubo un problema al actualizar el item");
-      }
-
-      if (item.quantity === 1) {
-        const itemDeleteResult = await deleteOrderItem(itemId);
-        const itemsOrder = await getOrderItemsByOrder(item.orderId);
-
-        const orderHaveMoreItems = itemsOrder.length > 0;
-
-        if (!orderHaveMoreItems) {
-          const orderDeleteResult = await deleteOrder(item.orderId);
-
-          return itemDeleteResult && orderDeleteResult
-            ? res.status(200).json("Item y orden eliminados correctamente")
-            : res
-                .status(400)
-                .json("Hubo un problema al eliminar el item o la orden");
-        }
-        return itemDeleteResult
-          ? res.status(200).json("Item eliminado correctamente")
-          : res.status(400).json("Hubo un problema al eliminar el item");
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error });
-    }
-  },
-  removeAllFromOrder: async (req, res) => {
-    try {
-        const { itemId } = req.params;
-        const item = await getOrderItemById(itemId);
-        if (!item) return res.status(400).json(`El item ${itemId} no existe`);
-        const itemsOrder = await getOrderItemsByOrder(item.orderId);
-        const orderHaveMoreOfOneItem = itemsOrder.length > 1;
-        const itemDeleteResult = await deleteOrderItem(itemId);
-
-        if (orderHaveMoreOfOneItem) {
-            return itemDeleteResult
-                ? res.status(200).json("Item eliminado correctamente")
-                : res.status(400).json("Hubo un problema al querer eliminar el item");
-        } else {
-            const orderDeleteResult = await deleteOrder(item.orderId);
-            return itemDeleteResult && orderDeleteResult 
-                ? res.status(200).json("Item y orden eliminados correctamente")
-                : res
-                    .status(400)
-                    .json("Hubo un problema al querer eliminar el item o la orden");
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-  },
-  clearOrder: async (req, res) => {
-    try {
-        const { orderId } = req.params;
-        const itemsDeleteResult = await bulkDeleteOrderItems(orderId);
-        const orderDeleteResult = await deleteOrder(orderId);
-
-        return itemsDeleteResult && orderDeleteResult
-            ? res.status(200).json("Orden eliminada correctamente")
-            : res.status(400).json("Hubo un error al eliminar la orden");
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-    }
-  },
+  getAllOrders,
+  getOrderById,
+  createNewOrder,
+  updateOrderById,
+  deleteOrderById,
 };

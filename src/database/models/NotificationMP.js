@@ -19,7 +19,6 @@ module.exports = (sequelize, dataTypes) => {
     version: dataTypes.INTEGER,
     api_version: dataTypes.STRING,
     paymentId: dataTypes.STRING,
-    idPedido: dataTypes.INTEGER,
   };
 
   const config = {
@@ -30,14 +29,6 @@ module.exports = (sequelize, dataTypes) => {
   };
 
   const NOTIFICACIONES_MP = sequelize.define(alias, cols, config);
-
-  NOTIFICACIONES_MP.associate = (models) => {
-    NOTIFICACIONES_MP.belongsTo(models.Order, {
-      as: "orders",
-      foreignKey: "idPedido",
-      onUpdate: "cascade",
-    });
-  };
 
   return NOTIFICACIONES_MP;
 };

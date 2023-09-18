@@ -1,5 +1,5 @@
 module.exports = (sequelize, dataTypes) => {
-  const alias = "Order";
+  const alias = "Payment";
 
   const cols = {
     id: {
@@ -8,61 +8,60 @@ module.exports = (sequelize, dataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    tipo_de_entrega: {
+    paymentId: {
       type: dataTypes.STRING,
       allowNull: false,
     },
-    estado_del_pedido: {
+    description: {
       type: dataTypes.STRING,
       allowNull: false,
     },
-    link: {
+    payer_email: {
       type: dataTypes.STRING,
       allowNull: false,
     },
-    client_data: {
-      type: dataTypes.TEXT,
+    payerId: {
+      type: dataTypes.STRING,
       allowNull: false,
     },
-    punto_retiro_id: {
+    payer_details: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    payment_method_id: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    status: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    status_detail: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    transaction_amount: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    orderId: {
       type: dataTypes.INTEGER,
-      allowNull: false,
-    },
-    numero_orden: {
-      type: dataTypes.STRING,
-      allowNull: false,
-    },
-    detalle_pedido: {
-      type: dataTypes.STRING,
-      allowNull: false,
-    },
-    monto_total: {
-      type: dataTypes.STRING,
       allowNull: false,
     },
   };
 
   const config = {
-    tableName: "pedidos",
-    timestamps: false
-   /*  createdAt: "created_at",
-    updatedAt: "updated_at", */
+    tableName: "pagos",
   };
 
-  const ORDER = sequelize.define(alias, cols, config);
+  const PAYMENT = sequelize.define(alias, cols, config);
 
-  ORDER.associate = (models) => {
-
-    ORDER.hasOne(models.PuntoDeRetiro, {
-      as: "Punto_de_retiro",
-      foreignKey: "punto_retiro_id",
-    });
-
-    ORDER.hasOne(models.Payment, {
-      as: "payments",
+  PAYMENT.associate = (models) => {
+    PAYMENT.belongsTo(models.Order, {
+      as: "order",
       foreignKey: "orderId",
     });
   };
 
-  return ORDER;
+  return PAYMENT;
 };

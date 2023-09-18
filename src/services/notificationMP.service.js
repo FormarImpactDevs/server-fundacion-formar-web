@@ -34,29 +34,10 @@ const getNotificationsMPById = async (notificationId) => {
     }
   };
 
-  const updateOrder = async (dataPedido) => {
-    try {
-      return await Order.update(dataPedido, { where: { id: dataPedido.id } });
-    
-      } catch (error) {
-        console.error("Error al actualizar la orden con Notificaciones de Mercado Pago: ", error);
-        throw new Error("Error al actualizar la orden con Notificaciones de Mercado Pago");
-      }
-  }
 
-  /*   
-  const updateEnterprise = async (enterpriseData) => {
-    try {
-      return await Enterprise.update(enterpriseData, { where: { id: enterpriseData.id } });
-    } catch (error) {
-      console.error("Error al actualizar un Emprendimiento:", error);
-      throw new Error("Error al actualizar un Emprendimiento");
-    }
-  }; */
 
   module.exports = {
     getNotificationsMP,
     getNotificationsMPById,
     insertNotification,
-    updateOrder
 }
