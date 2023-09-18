@@ -32,6 +32,14 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.STRING,
       allowNull: false,
     },
+    detalle_pedido: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    monto_total: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
   };
 
   const config = {

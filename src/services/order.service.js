@@ -1,62 +1,98 @@
-const { Order } = require("../database/models");
+const { generateOrderNumber } = require('../helpers/orders.helper');
+const { Order } = require('../database/models');
+const { createMpPayment } = require('./mp.services');
 
-const getOrders = async(id) => {
-    return await Order.findAll();
-};
+// Crear una nueva orden
+async function createOrder(orderData) {
+  const {
+    tipo_de_entrega,
+    estado_del_pedido = "pending",
+    client_data,
+    punto_retiro_id,
+    detalle_pedido,
+  } = orderData;
 
-const getOrderById = async(id) => {
-    return await Order.findByPk(id);
-};
+  const numero_orden = generateOrderNumber(tipo_de_entrega); // Generar un número de orden único
 
-const getOrderByUser = (userId) => {
-    return Order.findOne({
-        where: {
-            userId,
+  const { email } = client_data;
+
+  try {
+    // Parsear el detalle del pedido como un array de productos
+    const products = detalle_pedido;
+
+    // Calcular la suma total de los productos
+    let totalAmount = 0;
+    products.forEach((product) => {
+      totalAmount += product.unit_price * product.quantity;
+    });
+
+    // Crear el pago en Mercado Pago
+    const paymentData = await createMpPayment({
+      payer_email: email,
+      items: products,
+      orderId: numero_orden,
+      isChange: false,
+    });
+
+    const link = paymentData.init_point;
+
+    const order = await Order.create({
+      tipo_de_entrega,
+      estado_del_pedido,
+      link,
+      client_data: JSON.stringify(client_data),
+      punto_retiro_id,
+      numero_orden,
+      detalle_pedido: JSON.stringify(products), // Guardar el detalle_pedido como JSON
+      monto_total: totalAmount, // Guardar la suma total
+    });
+
+    return order;
+  } catch (error) {
+    console.error(error)
+
+    throw new Error('Error al crear la orden');
+  }
+}
+
+// Actualizar una orden por su ID
+async function updateOrder(orderNumber, updatedData) {
+  const order = await Order.findOne({where: { numero_orden: orderNumber }});
+
+  if (!order) {
+    return null;
+  }
+
+
+  await Order.update({
+    ...updatedData,
+  }, {
+    where: {
+        id: order.id,
+    }
+  });
+
+  return order;
+}
+
+// Eliminar una orden por su ID
+async function deleteOrder(orderId) {
+  const order = await Order.findByPk(orderId);
+
+  if (!order) {
+    return null;
+  }
+
+  await Order.destroy({
+    where:{
+        id : orderId
         },
-    })
-};
-
-const insertOrder = async(data) => {
-    try {
-        return await Order.create(data);
-    } catch(error) {
-        console.error("Error while fetching order:", error);
-        throw new Error("Error fetching order:")
-    } 
-};
-
-const updateOrder = async(data, Id) => {
-    try {
-        return await Order.create(data, {
-            where: {
-                id: Id,
-            }
-        });
-    } catch(error) {
-        console.error("Error while fetching order:", error);
-        throw new Error("Error fetching order:")
-    }
-};
-
-const deleteOrder = async(id) => {
-    try {
-        return await Order.destroy({
-            where: {
-                id
-            }
-        });
-    } catch(error) {
-        console.error("Error while fetching order:", error);
-        throw new Error("Error fetching order:")
-    }
-};
+  });
+  return true;
+}
 
 module.exports = {
-    getOrders,
-    getOrderById,
-    getOrderByUser,
-    insertOrder,
-    updateOrder,
-    deleteOrder
+  createOrder,
+  updateOrder,
+  deleteOrder,
 };
- 

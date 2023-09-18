@@ -1,28 +1,30 @@
 const express = require("express");
 const router = express.Router();
 const {
-    getOrders,
-    getOrderById,
-    getOrderByUser,
-    addToOrder,
-    clearOrder,
-    removeAllFromOrder,
-    removeOneItemFromOrder
+  createNewOrder,
+  deleteOrderById,
+  getAllOrders,
+  getOrderById,
+  updateOrderById,
 } = require("../controllers/orders");
-const verifyToken = require("../middlewares/index");
+const {
+  validateCreateOrder,
+  validateUpdateOrder,
+} = require("../validations/order.validator");
 
-router
-/*GET /pedidos - Lista de pedidos
+// Listar todas las órdenes
+router.get("/", getAllOrders);
 
-POST /pedidos - Crear pedido
+// Obtener una orden por su ID
+router.get("/:id", getOrderById);
 
-PUT /pedidos - Editar pedido */
-    .get("/", /* verifyToken, */ getOrders)
-    .get("/detail/:orderId", /* verifyToken, */ getOrderById)
-    .get("/user", /* verifyToken, */ getOrderByUser)
-    .post("/", /* verifyToken, */ addToOrder)
-    .delete("/clear/:orderId", /* verifyToken, */ clearOrder)
-    .delete("/:itemId", /* verifyToken, */ removeAllFromOrder)
-    .put("/:itemId", /* verifyToken, */ removeOneItemFromOrder);
+// Crear una nueva orden
+router.post("/", validateCreateOrder, createNewOrder);
+
+// Actualizar una orden por su ID
+router.put("/:id", validateUpdateOrder, updateOrderById);
+
+// Eliminar una orden por su ID
+router.delete("/:id", deleteOrderById);
 
 module.exports = router;

@@ -146,6 +146,8 @@ CREATE TABLE `pedidos` (
   `punto_retiro_id` int(11) NOT NULL,
   `numero_orden` varchar(45) NOT NULL,
   `tipo_de_entrega` varchar(45) NOT NULL,
+  `detalle_pedido` TEXT NOT NULL,
+  `monto_total` int(11) NOT NULL,
   PRIMARY KEY (`id`,`punto_retiro_id`),
   KEY `fk_pedidos_punto_retiro1` (`punto_retiro_id`),
   CONSTRAINT `fk_pedidos_punto_retiro1` FOREIGN KEY (`punto_retiro_id`) REFERENCES `punto_de_retiro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
