@@ -38,7 +38,7 @@ module.exports = {
       const user = await getUserById(USER_ID);
   
       if (!user) {
-        return res.status(404).json({ Error: `User with ID ${USER_ID} does not exist` });
+        return res.status(404).json({ Error: `User with ${USER_ID} doesn't exist` });
       }
   
       const { id, nombre, email } = user;
@@ -77,38 +77,26 @@ module.exports = {
     try {
       const { email, password } = req.body;
       const user = await getUserByEmail(email);
-      
-      
+  
       if (!user) {
-        return res.status(404).json({ Error: `User with email ${EMAIL_ID} does not exist` });
+        return res.status(404).json({ Error: `User with ${email} does not exist` });
       }
-        
+  
       const passwordMatch = await bcrypt.compare(password, user.password);
       
       if (!passwordMatch) {
         return res.status(401).json({ Error: "Invalid email or password" });
       }
   
+      const token = generateToken(user);
       
-      return res.status(200).json({ message: "Login successful" });
+      return res.status(200).json({ token });
     } catch (error) {
       console.error("Error during login:", error);
       return res.status(500).json({ Error: "An error occurred during login: " + error.message });
     }
   },
   
-  
-  /* login: async (req, res) => {
-    try {
-      const { email } = req.body;
-      const user = await getUserByEmail(email);
-      const token = generateToken(user);
-
-      return res.status(200).json({token})
-    } catch (error) {
-      return res.status(500).json({ Error: "Token error " + error });
-    }
-  }, */
   updateUser: async (req, res) => {
     const USER_ID = req.params.id;
     const user = await getUserById(USER_ID);
