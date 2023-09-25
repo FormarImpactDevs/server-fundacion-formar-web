@@ -6,7 +6,7 @@ function generateOrderNumber(orderType) {
 
   // Combina la primera letra y una parte del UUID para crear un código alfanumérico único
   const uniqueValue = `${firstLetter}-${uniqueId.substr(0, 6)}`;
-
+ 
   return uniqueValue;
 }
 
