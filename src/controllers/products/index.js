@@ -7,7 +7,7 @@ const {
 
 const deletedFiles = require("../../utils/deletedFiles");
 
-const { productValidationRules } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 module.exports = {
   getProduct: async (req, res) => {
@@ -27,7 +27,7 @@ module.exports = {
 
   createProduct: async (req, res) => {
     let { nombre, descripcion, precio, stock, categoria_id, descuento, emprendimientos_id, foto_card } = req.body;
-  
+    const errors = validationResult(req);
     let photos = [];
     if (req.files.foto_card) {
       photos.push(req.files.foto_card[0].filename);
@@ -35,11 +35,10 @@ module.exports = {
 
     let archivos = req.files;
     console.log(archivos);
-
+   
+    if (errors.isEmpty()){
     try {
-    
-    
-      const result = await insertProduct({
+       const result = await insertProduct({
         nombre: nombre,
         descripcion: descripcion,
         precio: precio,
@@ -69,17 +68,20 @@ module.exports = {
           "Ocurrió un error al crear el producto " + error,
       });
     }
-  },
+   } 
+},
   updateProduct: async (req, res) => {
     const PRODUCT_ID = req.params.id;
     const Product = await getProductById(PRODUCT_ID);
 
     let { nombre, descripcion, precio, stock, descuento, emprendimientos_id, categoria_id } = req.body;
+    const errors = validationResult(req);
 
     let filesOld = [];
 
     let filesNew = [];
-
+ 
+    if(errors.isEmpty()){
     try {
       if (req.files.foto_card) {
         filesOld.push(Product.foto_card);
@@ -122,7 +124,8 @@ module.exports = {
         Error:
           "Ocurrió un error al actualizar el Producto " + error,
       });
-    }
+     }
+   }
   },
   deleteProduct: async (req, res) => {
     const PRODUCT_ID = req.params.id;
