@@ -40,10 +40,15 @@ app.use('/api/payment', paymentRouter);
 
 // Manejo de errores
 app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-});
-
+    if (err.status === 422) {
+      // Manejo de errores de validación
+      const errorMessages = err.array().map((error) => error.msg);
+      return res.status(422).json({ errors: errorMessages });
+    } else {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
 
 
 // Iniciar servidor
