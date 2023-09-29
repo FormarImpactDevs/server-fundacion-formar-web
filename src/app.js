@@ -41,7 +41,7 @@ app.use('/api/payment', paymentRouter);
 // Manejo de errores
 app.use((err, req, res, next) => {
     if (err.status === 422) {
-      // Manejo de errores de validación
+      // error validacion
       const errorMessages = err.array().map((error) => error.msg);
       return res.status(422).json({ errors: errorMessages });
     } else {
