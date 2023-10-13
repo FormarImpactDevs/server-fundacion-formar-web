@@ -9,7 +9,7 @@ const validate = require("../validations/index.validator");
 router
     .get("/", getProduct)
     .get("/:id", getProductById)
-    .post("/create", uploadProductFile.array('foto_card', 3), productValidationRules(), validate, createProduct)
-    .put("/update/:id", uploadProductFile.array('foto_card', 3),  productValidationRules(), validate, updateProduct)
+    .post("/create", uploadProductFile.array('images', 3), productValidationRules(), validate, createProduct)
+    .put("/update/:id", uploadProductFile.array('images', 3),  productValidationRules(), validate, updateProduct)
     .delete("/delete/:id", deleteProduct);
 module.exports = router;
