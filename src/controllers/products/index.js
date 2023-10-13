@@ -4,6 +4,7 @@ const {
   insertProduct,
   updateProduct,
   deleteProduct} = require("../../services/product.service");
+const { insertImagesProduct } = require("../../services/productImages.service");
 
 const deletedFiles = require("../../utils/deletedFiles");
 
@@ -38,24 +39,38 @@ module.exports = {
    
     if (errors.isEmpty()){
     try {
-       const result = await insertProduct({
+       const productResult = await insertProduct({
         nombre: nombre,
         descripcion: descripcion,
         precio: precio,
         descuento: descuento,
         stock: stock,
-        foto_card: req.files.foto_card
-         /* ? req.files.foto_card[0].filename
-          : "default-image.png"*/,
         categoria_id: categoria_id,
         emprendimientos_id: emprendimientos_id,
       })
 				
 
-      if (result) {
+      if (productResult) { 
+
+        const images = req.files.map((file) => {
+          return {
+            imagen: file.filename,
+            productos_id: productResult.id
+          };
+        });
+
+        try {
+
+        const productImagesResult = await insertImagesProduct(images);
+
         const SUCCESS_RESPONSE = "Producto creado satisfactoriamente";
-        return res.status(201).json({ msg: SUCCESS_RESPONSE });
-      } else {
+        return res.status(201).json({ msg: SUCCESS_RESPONSE, productImagesResult });
+      }catch(error) {
+        const ERROR_RESPONSE = "Ocurrio un error al insertar imagenes en la base de datos";
+        return res.status(500).json({ msg: ERROR_RESPONSE, error: error});
+      }
+
+    }else {
         if (photos.length > 0) {
           await deletedFiles("imagesProduct", photos);
         }
@@ -83,9 +98,9 @@ module.exports = {
  
     if(errors.isEmpty()){
     try {
-      if (req.files.foto_card) {
-        filesOld.push(Product.foto_card);
-        filesNew.push(req.files.foto_card[0].filename);
+      if (req.files.images) {
+        filesOld.push(Product.images);
+        filesNew.push(req.files.images[0].filename);
       }
 
       if (filesOld.length > 0) {
@@ -97,9 +112,9 @@ module.exports = {
         descripcion: descripcion ? descripcion : Product.descripcion,
         precio: precio,
         stock: stock,
-        foto_card: req.files.foto_card
-          ? req.files.foto_card[0].filename
-          : Product.foto_card,
+        images: req.files.images
+          ? req.files.images[0].filename
+          : Product.images,
         emprendimientos_id: emprendimientos_id,
         descuento: descuento,
         categoria_id: categoria_id
