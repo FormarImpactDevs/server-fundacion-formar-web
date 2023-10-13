@@ -1,4 +1,5 @@
 const { Product } = require("../database/models");
+const { DeleteImagesProduct } = require("./productImages.service");
 
 const getProduct = async () => {
     try {
@@ -55,6 +56,7 @@ const getProductById = async (productId) => {
 
   const deleteProduct = async (productId) => {
     try {
+      await DeleteImagesProduct(productId);
       return await Product.destroy({ where: { id: productId } });
     } catch (error) {
       console.error("Error al tratar de eliminar un Emprendimiento:", error);
