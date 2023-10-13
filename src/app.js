@@ -23,6 +23,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(methodOverride("_method"));

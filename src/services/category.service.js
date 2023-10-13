@@ -3,7 +3,11 @@ const { Category } = require("../database/models");
 const getCategories = async () => {
   console.log(Category);
 try {
-  const category = await Category.findAll();
+  const category = await Category.findAll({
+    include: [
+        { association: "products" }
+      ]
+});
 
   return category;
 } catch (error) {
@@ -14,7 +18,11 @@ try {
 
 const getCategoryById = async (id) => {
   try {
-    return await Category.findByPk(id);
+    return await Category.findByPk(id, {
+      include: [
+          { association: "products" }
+        ]
+  });
   } catch (error) {
     console.error("Error while fetching category:", error);
     throw new Error("Error fetching category");

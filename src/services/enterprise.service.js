@@ -2,7 +2,11 @@ const { Enterprise } = require("../database/models");
 
 const getEnterprises = async () => {    
   try {
-    const enterprise = await Enterprise.findAll();
+    const enterprise = await Enterprise.findAll({
+      include: [
+          { association: "products" }
+        ]
+  });
 
     return enterprise;
   } catch (error) {
