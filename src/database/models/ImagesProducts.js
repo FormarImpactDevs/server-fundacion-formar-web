@@ -8,7 +8,7 @@ module.exports = (sequelize, dataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    imagen: dataTypes.STRING,
+    imagen: dataTypes.TEXT,
     productos_id: dataTypes.INTEGER,
   };
 
