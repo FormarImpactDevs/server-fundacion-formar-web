@@ -24,6 +24,8 @@ const createMpPayment = async ({
     const body = {
       payer_email,
       external_reference: orderId,
+      title : "Emprendimientos Formar",
+      description : "Compra en ecommerce", 
       items,
       back_urls: {
         failure: isChange

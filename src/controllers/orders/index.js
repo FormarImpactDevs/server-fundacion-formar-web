@@ -59,6 +59,7 @@ async function updateOrderById(req, res) {
 
     return res.json(order);
   } catch (error) {
+    console.error(error)
     return res.status(500).json({ error: 'Error al actualizar la orden' });
   }
 }

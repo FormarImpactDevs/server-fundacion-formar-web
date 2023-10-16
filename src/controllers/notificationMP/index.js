@@ -3,9 +3,12 @@ const { getMpPaymentById } = require("../../services/mp.services");
 const {
   getNotificationsMP,
   insertNotification,
+  updateOrderRequest,
 } = require("../../services/notificationMP.service");
+const { Payment } = require("../../database/models")
 
 const sendResponse = require("../../utils/sendResponse");
+const { updateOrderById } = require("../orders");
 
 module.exports = {
   getNotifications: async (req, res) => {
@@ -55,8 +58,12 @@ module.exports = {
         if( type === NOTIFICATIONS_CONSTANTS.type.PAYMENT) {
           if (action === NOTIFICATIONS_CONSTANTS.action.PAYMENT_CREATED) {
             const paymentInfo = await getMpPaymentById(data.id);
-           
-            await db.Payment.create({
+            const orderId = paymentInfo.external_reference;
+            const paymentData = {
+              estado_del_pago: paymentInfo.status
+            }
+            
+            await Payment.create({
               paymentId: paymentInfo.id,
               description: paymentInfo.description,
               payer_email: paymentInfo.payer.email,
@@ -68,17 +75,25 @@ module.exports = {
               transaction_amount: paymentInfo.transaction_amount,
               orderId: paymentInfo.external_reference
             });
-  
-            if (paymentInfo.status === "approved") {
-              /* TODO Actualizar pedido a aprobado */
-            } else {
-              /* TODO Actualizar con los datos de la notificacion */
-            }
+            
+            try {
+                await updateOrderRequest(orderId, paymentData)
+                
+              } catch (error) {
+                console.error(error);
+              }
+           
           }
   
           if (action === NOTIFICATIONS_CONSTANTS.action.PAYMENT_UPDATED) {
             const paymentInfo = await getMpPaymentById(data.id);
-            await db.Payment.update({
+
+            const orderId = paymentInfo.external_reference;
+            const paymentData = {
+              estado_del_pago: paymentInfo.status
+            }
+
+            await Payment.update({
               description: paymentInfo.description,
               payerId: paymentInfo.payer.id,
               payer_details: JSON.stringify(paymentInfo.payer),
@@ -92,20 +107,22 @@ module.exports = {
               }
             });
   
-            if (paymentInfo.status === "approved") {
-              /* TODO Actualizar pedido a aprobado */
-            } else {
-              /* TODO Actualizar con los datos de la notificacion */
+            try {
+              await updateOrderRequest(orderId, paymentData)
+              
+            } catch (error) {
+              console.error(error);
             }
           }
         }
 
-        return sendResponse(res, 201, SUCCESS_RESPONSE, result);
+        return sendResponse(res, 201);
       } else {
         const ERROR_RESPONSE = "Ocurrió un error";
         return sendResponse(res, 400, ERROR_RESPONSE);
       }
     } catch (error) {
+      console.error(error)
       return sendResponse(
         res,
         500,

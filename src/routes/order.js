@@ -22,7 +22,7 @@ router.get("/:orderNumber", getOrderById);
 router.post("/", validateCreateOrder, createNewOrder);
 
 // Actualizar una orden por su ID
-router.put("/:orderNumber", validateUpdateOrder, updateOrderById);
+router.put("/update/:orderNumber", validateUpdateOrder, updateOrderById);
 
 // Eliminar una orden por su ID
 router.delete("/:id", deleteOrderById);

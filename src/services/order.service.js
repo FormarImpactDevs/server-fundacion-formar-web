@@ -7,6 +7,7 @@ async function createOrder(orderData) {
   const {
     tipo_de_entrega,
     estado_del_pedido = "pending",
+    estado_del_pago = "pending",
     client_data,
     punto_retiro_id,
     detalle_pedido,
@@ -39,6 +40,7 @@ async function createOrder(orderData) {
     const order = await Order.create({
       tipo_de_entrega,
       estado_del_pedido,
+      estado_del_pago,
       link,
       client_data: JSON.stringify(client_data),
       punto_retiro_id,
@@ -68,7 +70,7 @@ async function updateOrder(orderNumber, updatedData) {
     ...updatedData,
   }, {
     where: {
-        id: order.id,
+      numero_orden: orderNumber,
     }
   });
 

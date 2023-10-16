@@ -2,10 +2,9 @@ module.exports = (sequelize, dataTypes) => {
   const alias = "Order";
 
   const cols = {
-    id: {
-      type: dataTypes.INTEGER(11),
+    numero_orden: {
+      type: dataTypes.STRING,
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
     },
     tipo_de_entrega: {
@@ -13,6 +12,10 @@ module.exports = (sequelize, dataTypes) => {
       allowNull: false,
     },
     estado_del_pedido: {
+      type: dataTypes.STRING,
+      allowNull: false,
+    },
+    estado_del_pago: {
       type: dataTypes.STRING,
       allowNull: false,
     },
@@ -28,10 +31,7 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.INTEGER,
       allowNull: false,
     },
-    numero_orden: {
-      type: dataTypes.STRING,
-      allowNull: false,
-    },
+    
     detalle_pedido: {
       type: dataTypes.STRING,
       allowNull: false,
