@@ -65,7 +65,7 @@ async function updateOrder(orderNumber, updatedData) {
     return null;
   }
 
-
+try {
   await Order.update({
     ...updatedData,
   }, {
@@ -75,6 +75,10 @@ async function updateOrder(orderNumber, updatedData) {
   });
 
   return order;
+} catch (error) {
+  console.error("[updateOrder]", error)
+}
+
 }
 
 // Eliminar una orden por su ID

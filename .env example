@@ -1,0 +1,9 @@
+DB_USERNAME= 
+DB_DATABASE= 
+DB_HOST= 
+DB_PASS= 
+API_MP=
+ACCESS_TOKEN=
+BASE_URL="http://localhost:5173"
+JWT_SECRET=
+SERVER_BASE_URL="http://localhost:3000"

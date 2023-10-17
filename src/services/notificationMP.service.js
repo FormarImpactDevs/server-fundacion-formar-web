@@ -34,7 +34,7 @@ const insertNotification = async (notificationData) => {
 };
 
 const updateOrderRequest = async (orderId, data) => {
-  const ENDPOINT = `/api/orders/update/${orderId}`;
+  const ENDPOINT = `${process.env.SERVER_BASE_URL}/api/orders/update/${orderId}`;
   try {
     return await axios.put(ENDPOINT, data);
   } catch (error) {

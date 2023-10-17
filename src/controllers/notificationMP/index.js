@@ -8,7 +8,6 @@ const {
 const { Payment } = require("../../database/models")
 
 const sendResponse = require("../../utils/sendResponse");
-const { updateOrderById } = require("../orders");
 
 module.exports = {
   getNotifications: async (req, res) => {
