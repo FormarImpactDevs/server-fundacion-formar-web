@@ -57,7 +57,9 @@ async function updateOrderById(req, res) {
       return res.status(404).json({ error: 'Orden no encontrada' });
     }
 
-    return res.json(order);
+    const SUCCESS_RESPONSE = `Pedido ${orderNumber} actualizado correctamente`
+
+    return res.json(SUCCESS_RESPONSE);
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Error al actualizar la orden' });
