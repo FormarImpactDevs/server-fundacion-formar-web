@@ -42,6 +42,7 @@ module.exports = {
     const errors = validationResult(req);
     let photos = [];
     if (req.files) {
+      console.log(req.files)
       req.files.forEach((image) => {
         photos.push(image.filename);
       });

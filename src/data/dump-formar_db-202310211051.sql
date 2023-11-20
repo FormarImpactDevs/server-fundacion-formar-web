@@ -18,7 +18,11 @@
 --
 -- Table structure for table `categoria`
 --
+DROP DATABASE IF EXISTS formar_db;
 
+CREATE DATABASE formar_db;
+
+USE formar_db;
 DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -97,106 +101,166 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `notificaciones_mp`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `notificaciones_mp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `notificationId` varchar(100) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `data` varchar(255) NOT NULL,
-  `action` varchar(255) NOT NULL,
-  `live_mode` tinyint(1) NOT NULL,
-  `date_created` date NOT NULL,
-  `application_id` varchar(255) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `version` int(11) NOT NULL,
-  `api_version` varchar(255) NOT NULL,
-  `paymentId` varchar(255) NOT NULL,
-  `idPedido` int(11) NOT NULL,
-  `createdAt` timestamp NULL DEFAULT NULL,
-  `updatedAt` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_pedidos1` (`idPedido`),
-  CONSTRAINT `fk_pedidos1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+
+;
+
+/*!50503 SET character_set_client = utf8mb4 */
+
+;
+
+CREATE TABLE
+    `notificaciones_mp` (
+        `id` int(11) AUTO_INCREMENT NOT NULL,
+        `notificationId` varchar(100) NOT NULL,
+        `type` varchar(255) NOT NULL,
+        `data` varchar(255) NOT NULL,
+        `action` varchar(255) NOT NULL,
+        `live_mode` boolean NOT NULL,
+        `date_created` date NOT NULL,
+        `application_id` varchar(255) NOT NULL,
+        `user_id` varchar(255) NOT NULL,
+        `version` int NOT NULL,
+        `api_version` varchar(255) NOT NULL,
+        `paymentId` varchar(255) NOT NULL,
+        `createdAt` timestamp NULL DEFAULT NULL,
+        `updatedAt` timestamp NULL DEFAULT NULL,
+        PRIMARY KEY (`id`)
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+/*!40101 SET character_set_client = @saved_cs_client */
+
+;
 
 --
+
 -- Dumping data for table `notificaciones_mp`
+
 --
 
 LOCK TABLES `notificaciones_mp` WRITE;
-/*!40000 ALTER TABLE `notificaciones_mp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `notificaciones_mp` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `notificaciones_mp` DISABLE KEYS */
+
+;
+
+/*!40000 ALTER TABLE `notificaciones_mp` ENABLE KEYS */
+
+;
+
 UNLOCK TABLES;
 
 --
--- Table structure for table `pagos`
---
 
-DROP TABLE IF EXISTS `pagos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pagos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `paymentId` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `payer_email` varchar(255) NOT NULL,
-  `payerId` varchar(255) NOT NULL,
-  `payer_details` varchar(255) NOT NULL,
-  `payment_method_id` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `status_detail` varchar(255) NOT NULL,
-  `transaction_amount` varchar(255) NOT NULL,
-  `orderId` int(11) NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`,`orderId`),
-  KEY `fk_pagos_pedidos1` (`orderId`),
-  CONSTRAINT `fk_pagos_pedidos1` FOREIGN KEY (`orderId`) REFERENCES `pedidos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pagos`
---
-
-LOCK TABLES `pagos` WRITE;
-/*!40000 ALTER TABLE `pagos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pagos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `pedidos`
+
 --
 
 DROP TABLE IF EXISTS `pedidos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pedidos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `estado_del_pedido` varchar(45) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `client_data` text NOT NULL,
-  `punto_retiro_id` int(11) NOT NULL,
-  `numero_orden` varchar(45) NOT NULL,
-  `tipo_de_entrega` varchar(45) NOT NULL,
-  `detalle_pedido` text NOT NULL,
-  `monto_total` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`punto_retiro_id`),
-  KEY `fk_pedidos_punto_retiro1` (`punto_retiro_id`),
-  CONSTRAINT `fk_pedidos_punto_retiro1` FOREIGN KEY (`punto_retiro_id`) REFERENCES `punto_de_retiro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+
+;
+
+/*!50503 SET character_set_client = utf8mb4 */
+
+;
+
+CREATE TABLE
+    `pedidos` (
+        `numero_orden` varchar(45) NOT NULL PRIMARY KEY,
+        -- Cambiamos el tipo de dato a varchar
+        `estado_del_pedido` varchar(45) NOT NULL,
+        `estado_del_pago` varchar(45) NOT NULL,
+        `link` varchar(255) NOT NULL,
+        `client_data` text NOT NULL,
+        `punto_retiro_id` int(11) NOT NULL,
+        `tipo_de_entrega` varchar(45) NOT NULL,
+        `detalle_pedido` TEXT NOT NULL,
+        `monto_total` int(11) NOT NULL,
+        KEY `fk_pedidos_punto_retiro1` (`punto_retiro_id`),
+        CONSTRAINT `fk_pedidos_punto_retiro1` FOREIGN KEY (`punto_retiro_id`) REFERENCES `punto_de_retiro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+/*!40101 SET character_set_client = @saved_cs_client */
+
+;
 
 --
+
 -- Dumping data for table `pedidos`
+
 --
 
 LOCK TABLES `pedidos` WRITE;
-/*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
+
+/*!40000 ALTER TABLE `pedidos` DISABLE KEYS */
+
+;
+
+/*!40000 ALTER TABLE `pedidos` ENABLE KEYS */
+
+;
+
 UNLOCK TABLES;
+
+--
+
+-- Table structure for table `pagos`
+
+--
+
+DROP TABLE IF EXISTS `pagos`;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */
+
+;
+
+/*!50503 SET character_set_client = utf8mb4 */
+
+;
+
+CREATE TABLE
+    `pagos` (
+        `id` int(11) AUTO_INCREMENT NOT NULL,
+        `paymentId` VARCHAR(255) NOT NULL,
+        `description` VARCHAR(255) NOT NULL,
+        `payer_email` VARCHAR(255) NOT NULL,
+        `payerId` VARCHAR(255) NOT NULL,
+        `payer_details` VARCHAR(255) NOT NULL,
+        `payment_method_id` VARCHAR(255) NOT NULL,
+        `status` VARCHAR(255) NOT NULL,
+        `status_detail` VARCHAR(255) NOT NULL,
+        `transaction_amount` VARCHAR(255) NOT NULL,
+        `orderId` varchar(45) NOT NULL,
+        -- Cambiado a varchar(45) para coincidir con la clave primaria en `pedidos`
+        `createdAt` DATETIME NOT NULL,
+        `updatedAt` DATETIME NOT NULL,
+        PRIMARY KEY (`id`, `orderId`),
+        KEY `fk_pagos_pedidos1` (`orderId`),
+        CONSTRAINT `fk_pagos_pedidos1` FOREIGN KEY (`orderId`) REFERENCES `pedidos`(`numero_orden`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+/*!40101 SET character_set_client = @saved_cs_client */
+
+;
+
+--
+
+-- Dumping data for table `pagos`
+
+--
+
+LOCK TABLES `pagos` WRITE;
+
+/*!40000 ALTER TABLE `pagos` DISABLE KEYS */
+
+;
+
+/*!40000 ALTER TABLE `pagos` ENABLE KEYS */
+
+;
 
 --
 -- Table structure for table `productos`
