@@ -6,7 +6,7 @@ const { createMpPayment } = require('./mp.services');
 async function createOrder(orderData) {
   const {
     tipo_de_entrega,
-    estado_del_pedido = "pending",
+    estado_del_pedido = "Pendiente",
     estado_del_pago = "pending",
     client_data,
     punto_retiro_id,
