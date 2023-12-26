@@ -6,6 +6,8 @@ const {
   deleteProduct,
 } = require("../../services/product.service");
 const { insertImagesProduct } = require("../../services/productImages.service");
+const process = require("process") 
+const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
 
 const deletedFiles = require("../../utils/deletedFiles");
 
@@ -67,7 +69,7 @@ module.exports = {
           if (photos.length > 0) {
             const images = req.files.map((file) => {
               return {
-                imagen: file.filename,
+                imagen: `${SERVER_BASE_URL}/images/imagesProduct/${file.filename}`,
                 productos_id: productResult.id,
               };
             });
@@ -130,13 +132,12 @@ module.exports = {
         if (req.files) {
           const images = req.files.map((file) => {
             return {
-              imagen: file.filename,
+              imagen: `${SERVER_BASE_URL}/images/imagesProduct/${file.filename}`,
               productos_id: Product.id,
             };
           });
           filesNew.push(images);
 
-          //filesOld.push(Product.images);
         }
 
         if (filesOld.length > 0) {

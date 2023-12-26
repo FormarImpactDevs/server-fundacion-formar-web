@@ -5,6 +5,7 @@ const express = require("express");
 const methodOverride = require("method-override");
 require('dotenv').config();
 const cors = require('cors')
+const path = require("path")
 // Rutas
 const { 
     enterpriseRouter,
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(methodOverride("_method"));
 app.use(cors());
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Rutas
 app.use('/api/enterprises', enterpriseRouter);
