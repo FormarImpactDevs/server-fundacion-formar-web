@@ -14,7 +14,7 @@ const {
     orderRouter,
     notificationRouter,
     paymentRouter,
-    
+    pointRouter
 } = require("./routes");
 
 const app = express();
@@ -37,6 +37,7 @@ app.use('/api/product', productRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/notifications', notificationRouter);
 app.use('/api/payment', paymentRouter);
+app.use('/api/point', pointRouter);
 
 
 // Manejo de errores

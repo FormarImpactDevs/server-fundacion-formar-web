@@ -5,6 +5,7 @@ const productRouter = require("./product");
 const orderRouter = require("./order");
 const notificationRouter = require("./notification");
 const paymentRouter = require("./payment");
+const pointRouter = require("./point");
 
 module.exports = {
   enterpriseRouter,
@@ -14,4 +15,5 @@ module.exports = {
   orderRouter,
   notificationRouter,
   paymentRouter,
+  pointRouter
 };

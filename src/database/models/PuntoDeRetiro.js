@@ -23,9 +23,9 @@ module.exports = (sequelize, dataTypes) => {
   const PUNTO_DE_RETIRO = sequelize.define(alias, cols, config);
 
   PUNTO_DE_RETIRO.associate = (models) => {
-    PUNTO_DE_RETIRO.belongsTo(models.Order, {
+    PUNTO_DE_RETIRO.hasMany(models.Order, {
       as: "orders",
-      foreignKey: "pedidos_id",
+      foreignKey: "punto_retiro_id",
     });
   };
 

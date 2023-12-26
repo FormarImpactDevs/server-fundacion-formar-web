@@ -53,8 +53,8 @@ module.exports = (sequelize, dataTypes) => {
 
   ORDER.associate = (models) => {
 
-    ORDER.hasOne(models.PuntoDeRetiro, {
-      as: "Punto_de_retiro",
+    ORDER.belongsTo(models.PuntoDeRetiro, {
+      as: "punto_de_retiro",
       foreignKey: "punto_retiro_id",
     });
 
