@@ -4,6 +4,7 @@
 const insertImagesProduct = async (images) => {
     try {
       const productImagesResult = await ImagesProducts.bulkCreate(images);
+      console.log(productImagesResult);
       return productImagesResult;
     } catch (error) {
       console.error("Error al insertar una imagen de producto:", error);

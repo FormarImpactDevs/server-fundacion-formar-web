@@ -166,7 +166,7 @@ DROP TABLE IF EXISTS `imagenes_productos`;
 CREATE TABLE
     `imagenes_productos` (
         `id` int(11) AUTO_INCREMENT NOT NULL,
-        `imagen` varchar(45) NOT NULL,
+        `imagen` varchar(500) NOT NULL,
         `productos_id` int(11) NOT NULL,
         PRIMARY KEY (`id`),
         KEY `fk_imagenes_productos_productos1` (`productos_id`),

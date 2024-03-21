@@ -9,6 +9,8 @@ const {
 
 const deletedFiles = require("../../utils/deletedFiles");
 const sendResponse = require("../../utils/sendResponse");
+const process = require("process");
+const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
 
 const { validationResult } = require("express-validator");
 
@@ -34,22 +36,27 @@ module.exports = {
 
   getEnterpriseById: async (req, res) => {
     const ENTERPRISE_ID = req.params.id;
-    const Enterprise = await getEnterpriseById(ENTERPRISE_ID);
-
-    return sendResponse(
-      res,
-      200,
-      `Emprendimiento con id : ${ENTERPRISE_ID}`,
-      Enterprise
-    );
+    try {
+      const enterprise = await getEnterpriseById(ENTERPRISE_ID);
+      return sendResponse(
+        res,
+        200,
+        `Emprendimiento con id : ${ENTERPRISE_ID}`,
+        enterprise
+      );
+    } catch (error) {
+      return sendResponse(
+        res,
+        500,
+        `Error al tratar de obtener el emprendimiento con id : ${ENTERPRISE_ID}`,
+        error
+      );
+    }
   },
 
   createEnterprise: async (req, res) => {
-    let { nombre, descripcion } = req.body;
+    const { nombre, descripcion } = req.body;
     const errors = validationResult(req);
-    /* console.log(req.body);
-    console.log(req.files);
-    console.log(req.File); */
     let photos = [];
     if (req.files.foto_card) {
       photos.push(req.files.foto_card[0].filename);
@@ -64,7 +71,7 @@ module.exports = {
         const exist = await getEnterpriseByName(nombre);
 
         if (exist) {
-          // Elimina las imagenes subidas si el emprendimiento ya existe
+          // Elimina las imágenes subidas si el emprendimiento ya existe
           if (photos.length > 0) {
             await deletedFiles("imagesEnterprises", photos);
           }
@@ -76,13 +83,13 @@ module.exports = {
         }
 
         const result = await insertEnterprise({
-          nombre: nombre,
-          descripcion: descripcion,
+          nombre,
+          descripcion,
           foto_card: req.files.foto_card
-            ? req.files.foto_card[0].filename
+            ? `${SERVER_BASE_URL}/images/imagesEnterprises/${req.files.foto_card[0].filename}`
             : "default-image.png",
           foto_emprendimiento: req.files.foto_emprendimiento
-            ? req.files.foto_emprendimiento[0].filename
+            ? `${SERVER_BASE_URL}/images/imagesEnterprises/${req.files.foto_emprendimiento[0].filename}`
             : "default-image.png",
         });
 
@@ -105,7 +112,6 @@ module.exports = {
         );
       }
     } else {
-      console.log(photos + "error");
       if (photos.length > 0) {
         await deletedFiles("imagesEnterprises", photos);
       }
@@ -114,45 +120,43 @@ module.exports = {
         res,
         500,
         "Ocurrió un error al tratar de crear el emprendimiento ",
-        errors.mapped()
+        errors.array()
       );
     }
   },
+
   updateEnterprise: async (req, res) => {
     const ENTERPRISE_ID = req.params.id;
     const Enterprise = await getEnterpriseById(ENTERPRISE_ID);
 
-    let { nombre, descripcion } = req.body;
+    const { nombre, descripcion } = req.body;
     const errors = validationResult(req);
 
-    let filesOld = [];
-
-    let filesNew = [];
+    let imageUrlsToDelete = [];
 
     if (errors.isEmpty()) {
       try {
         if (req.files.foto_card) {
-          filesOld.push(Enterprise.foto_card);
-          filesNew.push(req.files.foto_card[0].filename);
+          imageUrlsToDelete.push(Enterprise.foto_card);
         }
 
         if (req.files.foto_emprendimiento) {
-          filesOld.push(Enterprise.foto_emprendimiento);
-          filesNew.push(req.files.foto_emprendimiento[0].filename);
+          imageUrlsToDelete.push(Enterprise.foto_emprendimiento);
         }
 
-        if (filesOld.length > 0) {
-          await deletedFiles("imagesEnterprises", filesOld);
+        if (imageUrlsToDelete.length > 0) {
+          await deletedFiles("imagesEnterprises", imageUrlsToDelete);
         }
+
         const result = await updateEnterprise({
           id: ENTERPRISE_ID,
-          nombre: nombre ? nombre : Enterprise.nombre,
-          descripcion: descripcion ? descripcion : Enterprise.descripcion,
+          nombre: nombre || Enterprise.nombre,
+          descripcion: descripcion || Enterprise.descripcion,
           foto_card: req.files.foto_card
-            ? req.files.foto_card[0].filename
+            ? `${SERVER_BASE_URL}/images/imagesEnterprises/${req.files.foto_card[0].filename}`
             : Enterprise.foto_card,
           foto_emprendimiento: req.files.foto_emprendimiento
-            ? req.files.foto_emprendimiento[0].filename
+            ? `${SERVER_BASE_URL}/images/imagesEnterprises/${req.files.foto_emprendimiento[0].filename}`
             : Enterprise.foto_emprendimiento,
         });
 
@@ -162,17 +166,10 @@ module.exports = {
 
           return sendResponse(res, 201, SUCCESS_RESPONSE, result);
         } else {
-          if (filesNew.length > 0) {
-            await deletedFiles("imagesEnterprises", filesNew);
-          }
           const ERROR_RESPONSE = "Ocurrió un error";
           return sendResponse(res, 400, ERROR_RESPONSE, result);
         }
       } catch (error) {
-        if (filesNew.length > 0) {
-          await deletedFiles("imagesEnterprises", filesNew);
-        }
-
         return sendResponse(
           res,
           500,
@@ -180,24 +177,22 @@ module.exports = {
           error
         );
       }
-    }else {
-      if (filesNew.length > 0) {
-        await deletedFiles("imagesEnterprises", filesNew);
-      }
-
+    } else {
       return sendResponse(
         res,
         500,
-        "Ocurrió un error al tratar de actualizar el Emprendimiento "
+        "Ocurrió un error al tratar de actualizar el Emprendimiento ",
+        errors.array()
       );
     }
   },
+
   deleteEnterprise: async (req, res) => {
     const ENTERPRISE_ID = req.params.id;
     try {
       const enterprise = await getEnterpriseById(ENTERPRISE_ID);
       let files = [enterprise.foto_card, enterprise.foto_emprendimiento];
-      // Borro las imagenes del directorio
+      // Borro las imágenes del directorio
       await deletedFiles("imagesEnterprises", files);
       // Elimino el emprendimiento de la base de datos
       const result = await deleteEnterprise(ENTERPRISE_ID);
