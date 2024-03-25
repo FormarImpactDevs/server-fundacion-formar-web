@@ -23,7 +23,7 @@ const updateImagesProduct = async (id) => {
   
 }
 
-const DeleteImagesProduct = async (id) => {
+const deleteImagesProduct = async (id) => {
  try {
     const productImagesResult = await ImagesProducts.destroy({where: {productos_id: id}});
     return productImagesResult;
@@ -35,4 +35,4 @@ const DeleteImagesProduct = async (id) => {
 }
 
 
-module.exports = {insertImagesProduct, DeleteImagesProduct}
+module.exports = {insertImagesProduct, updateImagesProduct, deleteImagesProduct}
