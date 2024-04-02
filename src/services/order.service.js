@@ -19,7 +19,9 @@ async function createOrder(orderData) {
 
   try {
     // Parsear el detalle del pedido como un array de productos
-    const products = detalle_pedido;
+    const products = detalle_pedido.map((prod) => {
+      return { ...prod, unit_price: prod.precio }
+    });
 
     // Calcular la suma total de los productos
     let totalAmount = 0;

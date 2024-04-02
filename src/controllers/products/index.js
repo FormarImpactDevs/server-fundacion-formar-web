@@ -162,7 +162,7 @@ module.exports = {
 
         if (result) {
           try {
-            const productImagesResult = await insertImagesProduct(filesNew);
+            const productImagesResult = await updateImagesProduct(filesNew);
             const SUCCESS_RESPONSE =
               "Producto actualizado satisfactoriamente";
             return res
@@ -201,7 +201,6 @@ module.exports = {
     const PRODUCT_ID = req.params.id;
     try {
       const product = await getProductById(PRODUCT_ID);
-      let photosToDelete = product.images.map((image) => image.imagen);
 
       await deleteImagesProduct(PRODUCT_ID);
 
