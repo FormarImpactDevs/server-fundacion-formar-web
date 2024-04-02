@@ -19,7 +19,12 @@ const getEnterpriseById = async (enterpriseId) => {
   try {
     const enterprise = await Enterprise.findByPk(enterpriseId, {
         include: [
-            { association: "products" }
+            { association: "products",
+            include: [
+              {
+                association: "images"
+              }
+            ] }
           ],
     });
 

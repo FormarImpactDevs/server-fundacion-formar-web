@@ -208,13 +208,13 @@ module.exports = {
 
       if (result) {
         const SUCCESS_RESPONSE = "Producto eliminado satisfactoriamente";
-        return res.status(201).json({ msg: SUCCESS_RESPONSE });
+        return res.status(201).json({ msg: SUCCESS_RESPONSE, status : 201});
       } else {
         const ERROR_RESPONSE = "Ocurrió un error";
-        return res.status(400).json({ msg: ERROR_RESPONSE });
+        return res.status(400).json({ msg: ERROR_RESPONSE, status : 400 });
       }
     } catch (error) {
-      return res.status(500).json({ Error: error });
+      return res.status(500).json({ Error: error, status : 500 });
     }
   },
 };
