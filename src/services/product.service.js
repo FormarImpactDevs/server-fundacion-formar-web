@@ -59,8 +59,8 @@ const getProductById = async (productId) => {
       await DeleteImagesProduct(productId);
       return await Product.destroy({ where: { id: productId } });
     } catch (error) {
-      console.error("Error al tratar de eliminar un Emprendimiento:", error);
-      throw new Error("Error al tratar de eliminar un Emprendimiento");
+      console.error("Error al tratar de eliminar un producto:", error);
+      throw new Error("Error al tratar de eliminar un producto");
     }
   };
 
