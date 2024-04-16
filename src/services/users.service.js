@@ -49,10 +49,9 @@ const updateUser = async (userId, updatedData) => {
   }
 };
 
-
 const deleteUser = async (userId) => {
   try {
-    return await User.destroy({ where: { id: userId} });
+    return await User.destroy({ where: { id: userId } });
   } catch (error) {
     console.error("Error while delete user:", error);
     throw new Error("Error delete user");
@@ -65,5 +64,5 @@ module.exports = {
   getUserByEmail,
   insertUser,
   updateUser,
-  deleteUser
+  deleteUser,
 };

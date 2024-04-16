@@ -163,8 +163,7 @@ module.exports = {
         if (result) {
           try {
             const productImagesResult = await updateImagesProduct(filesNew);
-            const SUCCESS_RESPONSE =
-              "Producto actualizado satisfactoriamente";
+            const SUCCESS_RESPONSE = "Producto actualizado satisfactoriamente";
             return res
               .status(201)
               .json({ msg: SUCCESS_RESPONSE, productImagesResult });
@@ -188,9 +187,9 @@ module.exports = {
         if (filesNew.length > 0) {
           await deletedFiles("imagesProduct", filesNew);
         }
-        return res
-          .status(500)
-          .json({ Error: `Ocurrió un error al actualizar el Producto: ${error}` });
+        return res.status(500).json({
+          Error: `Ocurrió un error al actualizar el Producto: ${error}`,
+        });
       }
     } else {
       return res.status(500).json({ errors: errors.array() });
@@ -200,21 +199,17 @@ module.exports = {
   deleteProduct: async (req, res) => {
     const PRODUCT_ID = req.params.id;
     try {
-      const product = await getProductById(PRODUCT_ID);
-
       await deleteImagesProduct(PRODUCT_ID);
-
       const result = await deleteProduct(PRODUCT_ID);
-
       if (result) {
         const SUCCESS_RESPONSE = "Producto eliminado satisfactoriamente";
-        return res.status(201).json({ msg: SUCCESS_RESPONSE, status : 201});
+        return res.status(201).json({ msg: SUCCESS_RESPONSE, status: 201 });
       } else {
         const ERROR_RESPONSE = "Ocurrió un error";
-        return res.status(400).json({ msg: ERROR_RESPONSE, status : 400 });
+        return res.status(400).json({ msg: ERROR_RESPONSE, status: 400 });
       }
     } catch (error) {
-      return res.status(500).json({ Error: error, status : 500 });
+      return res.status(500).json({ Error: error, status: 500 });
     }
   },
 };
