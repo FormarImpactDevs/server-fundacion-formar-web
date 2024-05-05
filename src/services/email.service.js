@@ -61,4 +61,42 @@ async function sendMailToClient({
   });
 }
 
+async function receiveContactMessage({
+  emailContacto,
+}) {
+  const mailOptions = {
+    from: emailContacto, // Remitente
+    to: email, // Email del cliente
+    subject: "Contacto",
+    html: `
+      <h2>Hola ${nombreCliente},</h2>
+      <p>Tu compra ha sido realizada con éxito. Detalles:</p>
+      <ul>
+        ${detallesCompra
+          .map(
+            (item) =>
+              `<li>
+                <ul>
+                  <li>Producto: ${item.title}</li>
+                  <li>Descripcion: ${item.description}</li>
+                  <li>Cantidad: ${item.quantity}</li>
+                  <li>Precio unitario: ${item.unit_price}</li>
+                </ul>
+              </li>`
+          )
+          .join("")}
+      </ul>
+      <p>Gracias por tu compra.</p>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Correo de confirmación enviado: " + info.response);
+    }
+  });
+}
+
 module.exports = { sendMailToClient };
