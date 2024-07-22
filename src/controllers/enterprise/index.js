@@ -189,6 +189,7 @@ module.exports = {
 
   deleteEnterprise: async (req, res) => {
     const ENTERPRISE_ID = req.params.id;
+    
     try {
       const enterprise = await getEnterpriseById(ENTERPRISE_ID);
       let files = [enterprise.foto_card, enterprise.foto_emprendimiento];
@@ -197,11 +198,11 @@ module.exports = {
       // Elimino el emprendimiento de la base de datos
       const result = await deleteEnterprise(ENTERPRISE_ID);
 
-      if (result) {
+      if (result == "Ok") {
         const SUCCESS_RESPONSE = "Emprendimiento eliminado satisfactoriamente";
         return sendResponse(res, 201, SUCCESS_RESPONSE, result);
       } else {
-        const ERROR_RESPONSE = "Ocurrió un error";
+        const ERROR_RESPONSE = result;
         return sendResponse(res, 400, ERROR_RESPONSE);
       }
     } catch (error) {

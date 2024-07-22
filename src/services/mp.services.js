@@ -29,14 +29,14 @@ const createMpPayment = async ({
       items,
       back_urls: {
         failure: isChange
-          ? process.env.BASE_URL + "/feedback/failure"
-          : process.env.BASE_URL + "/feedback/failure",
+          ? process.env.BASE_URL + "feedback/failure"
+          : process.env.BASE_URL + "feedback/failure",
         pending: isChange
-          ? process.env.BASE_URL + "/feedback/pending"
-          : process.env.BASE_URL + "/feedback/pending",
+          ? process.env.BASE_URL + "feedback/pending"
+          : process.env.BASE_URL + "feedback/pending",
         success: isChange
-          ? process.env.BASE_URL + "/feedback/success"
-          : process.env.BASE_URL + "/feedback/success",
+          ? process.env.BASE_URL + "feedback/success"
+          : process.env.BASE_URL + "feedback/success",
       },
     };
     const payment = await axios.post(url, body, {
