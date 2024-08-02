@@ -1,4 +1,6 @@
+const { and } = require("sequelize");
 const { Category, Product } = require("../database/models");
+const { deleteProduct } = require("./product.service");
 
 const getCategories = async () => {
   console.log(Category);
@@ -42,32 +44,43 @@ const updateCategory = async (categoryId, updatedData) => {
     throw new Error("Error updating category");
   }
 };
-const deleteCategory = async (categoryId) => {
+const deleteCategory = async (id, categoryProducts) => {
+  
+  console.log(id, categoryProducts);
   try {
-    const category = await Category.findByPk(categoryId, {
+    const category = await Category.findByPk(id, {
       include: [
         {
           association: "products",
         },
       ],
     });
+    if (categoryProducts !== null) {
+      // Actualizar todos los productos asociados para que su categoría 
+      await Promise.all(
+        category.products.map(async (product) => {
+          // Seteamos en la categoría reasignada
+          await Product.update(
+            { categoria_id: categoryProducts },
+            { where: { id: product.id } }
+          );
+        })
+      );
+    } else {
+      // Eliminar cada producto asociado al emprendimiento de forma asíncrona
+      await Promise.all(
+        category.products.map(async (product) => {
+          await deleteProduct(product.id);
+        })
+      );
+    }
 
-    // Actualizar todos los productos asociados para que su categoría sea 1
-    await Promise.all(
-      category.products.map(async (product) => {
-        // Seteamos en 1 pensando en que esta sea por defecto "Sin categoria"
-        await Product.update(
-          { categoria_id: 1 },
-          { where: { id: product.id } }
-        );
-      })
-    );
     // Eliminar la categoría después de actualizar los productos
-    await Category.destroy({ where: { id: categoryId } });
+    await Category.destroy({ where: { id: id } });
     return "Ok";
   } catch (error) {
     console.error("Error al intentar eliminar una Categoría:", error);
-    return "Ocurrió un error al intentar eliminar la caategoría y modificar sus productos asociados.";
+    return "Ocurrió un error al intentar eliminar la categoría y modificar sus productos asociados.";
   }
 };
 

@@ -4,7 +4,7 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
- } = require("../../services/category.service");
+} = require("../../services/category.service");
 
 const sendErrorResponse = (res, statusCode, message) => {
   res.status(statusCode).json({ error: message });
@@ -22,7 +22,7 @@ module.exports = {
 
   getCategoryById: async (req, res) => {
     const categoryId = req.params.id;
-    
+
     try {
       const category = await getCategoryById(categoryId);
 
@@ -34,12 +34,14 @@ module.exports = {
 
         return res.status(200).json(response);
       } else {
-
-        sendErrorResponse(res, 400, `Category with id: ${categoryId} does not exist`);
-
+        sendErrorResponse(
+          res,
+          400,
+          `Categoría con id: ${categoryId} no existe`
+        );
       }
     } catch (error) {
-       return sendErrorResponse(res, 500, "Error fetching category");
+      return sendErrorResponse(res, 500, "Error al obtener categoría");
     }
   },
   createCategory: async (req, res) => {
@@ -49,10 +51,10 @@ module.exports = {
       });
 
       if (result) {
-        const SUCCESS_RESPONSE = "category created successfully";
+        const SUCCESS_RESPONSE = "Categoría creada satisfactoriamente";
         return res.status(201).json({ msg: SUCCESS_RESPONSE });
       } else {
-        const ERROR_RESPONSE = "Somethings wrong";
+        const ERROR_RESPONSE = "Ups, ocurrió un error";
         return res.status(400).json({ msg: ERROR_RESPONSE });
       }
     } catch (error) {
@@ -63,23 +65,23 @@ module.exports = {
   updateCategory: async (req, res) => {
     const categoryId = req.params.id;
     const category = await getCategoryById(categoryId);
-  
+
     if (!category) {
-      return res.status(404).json({ Error: "Category not found" });
+      return res.status(404).json({ Error: "Categoría no encontrada" });
     }
-  
+
     try {
       const updatedData = {
         nombre: req.body.nombre ? req.body.nombre : category.nombre,
       };
-      
+
       const result = await updateCategory(categoryId, updatedData);
-  
+
       if (result) {
-        const SUCCESS_RESPONSE = "Category updated successfully";
+        const SUCCESS_RESPONSE = "Categoría actualizada satisfactoriamente";
         return res.status(200).json({ msg: SUCCESS_RESPONSE });
       } else {
-        const ERROR_RESPONSE = "Something's wrong";
+        const ERROR_RESPONSE = "Ocurrió un error";
         return res.status(400).json({ msg: ERROR_RESPONSE });
       }
     } catch (error) {
@@ -88,15 +90,22 @@ module.exports = {
   },
 
   deleteCategory: async (req, res) => {
-    const categoryId = req.params.id;
+    //const categoryId = req.params.id;
+    const { id, categoryProducts } = req.params;
     try {
-      const result = await deleteCategory(categoryId);
+      let result;
+
+      if (!categoryProducts || categoryProducts === "null") {
+        result = await deleteCategory(id, null);
+      } else {
+        result = await deleteCategory(id, categoryProducts);
+      }
 
       if (result) {
-        const SUCCESS_RESPONSE = "category deleted successfully";
+        const SUCCESS_RESPONSE = "Categoría eliminada satisfactoriamente";
         return res.status(201).json({ msg: SUCCESS_RESPONSE, status: 201 });
       } else {
-        const ERROR_RESPONSE = "Somethings wrong";
+        const ERROR_RESPONSE = "Erro al eliminar la categría";
         return res.status(400).json({ msg: ERROR_RESPONSE, status: 400 });
       }
     } catch (error) {
