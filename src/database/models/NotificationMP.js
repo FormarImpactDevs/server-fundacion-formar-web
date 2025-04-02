@@ -9,14 +9,20 @@ module.exports = (sequelize, dataTypes) => {
       primaryKey: true,
     },
     notificationId: dataTypes.STRING,
-    type: dataTypes.STRING,
-    data: dataTypes.STRING,
-    action: dataTypes.STRING,
+    type: dataTypes.STRING, 
+    data: dataTypes.STRING,  
+    action: dataTypes.STRING, 
     live_mode: dataTypes.BOOLEAN,
-    date_created: dataTypes.DATE,
-    application_id: dataTypes.STRING,
+    date_created: dataTypes.DATE, 
+    application_id: {
+      type:dataTypes.STRING,
+      default: "sin application_id",
+    },
     user_id: dataTypes.STRING,
-    version: dataTypes.INTEGER,
+    version: {
+      type: dataTypes.INTEGER,
+      default: 0
+    },
     api_version: dataTypes.STRING,
     paymentId: dataTypes.STRING,
   };

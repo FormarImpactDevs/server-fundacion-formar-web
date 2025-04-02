@@ -29,7 +29,8 @@ module.exports = (sequelize, dataTypes) => {
     },
     punto_retiro_id: {
       type: dataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null,
     },
     
     detalle_pedido: {
