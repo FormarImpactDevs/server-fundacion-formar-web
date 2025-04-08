@@ -53,8 +53,8 @@ async function createNewOrder(req, res) {
     await sendMailToClient(confirmationEmailData);
     return res.status(201).json(order);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error al crear la orden" });
+    console.error("[createNewOrder]", error);
+    return res.status(500).json({ error: "Error al crear la orden", message: error.message });
   }
 }
 

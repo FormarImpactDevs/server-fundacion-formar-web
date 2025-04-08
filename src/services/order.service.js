@@ -53,9 +53,9 @@ async function createOrder(orderData) {
 
     return order;
   } catch (error) {
-    console.error(error)
+    console.error("[OrderService]", error)
 
-    throw new Error('Error al crear la orden');
+    throw new Error(error);
   }
 }
 

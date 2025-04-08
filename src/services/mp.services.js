@@ -47,7 +47,7 @@ const createMpPayment = async ({
     });
     return payment.data;
   } catch (error) {
-    console.error(error)
+    console.error("[createMpPayment]", error)
 
     throw new Error('Error al crear el pago en Mercado Pago');
   }
